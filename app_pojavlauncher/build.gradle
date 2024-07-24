@@ -1,5 +1,6 @@
 plugins {
-    id 'com.android.application' version '7.4.2'
+    id 'com.android.application' version '8.5.1'
+    id 'org.jetbrains.kotlin.android' version '1.9.20'
 }
 
 static def getDate() { return new Date().format('yyyyMMdd') }
@@ -89,8 +90,8 @@ configurations {
 
 android {
     namespace 'net.kdt.pojavlaunch'
+    compileSdk 34
 
-    compileSdk = 33
 
     lintOptions {
         abortOnError false
@@ -113,7 +114,7 @@ android {
 
     defaultConfig {
         applicationId "net.kdt.pojavlaunch"
-        minSdkVersion 21
+        minSdkVersion 28
         targetSdkVersion 33
         versionCode getDateSeconds()
         versionName getVersionName()
@@ -182,9 +183,14 @@ android {
 
     buildFeatures {
         prefab true
+        buildConfig true
     }
 
-    buildToolsVersion = '33.0.2'
+    buildToolsVersion = '34.0.0'
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -218,4 +224,5 @@ dependencies {
     // implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.android.material:material:1.12.0'
 }
