@@ -329,4 +329,8 @@
     <string name="newdl_starting">正在读取游戏元数据…</string>
     <string name="newdl_downloading_metadata">正在下载游戏元数据（%s）</string>
     <string name="newdl_downloading_game_files">正在下载游戏文件…（%d/%d，%.2f MB）</string>
+    <string name="home_add_user">点击添加新用户</string>
+    <string name="home_game_setting">游戏设置</string>
+    <string name="home_path_setting">路径设置</string>
+    <string name="home_start_game">启动</string>
 </resources>

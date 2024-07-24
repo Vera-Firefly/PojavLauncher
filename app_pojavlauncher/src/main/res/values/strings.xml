@@ -384,4 +384,7 @@
     <string name="log_view_label_log_output">Log output:</string>
 
     <string name="home_add_user">Click to add new user</string>
+    <string name="home_game_setting">Game Setting</string>
+    <string name="home_path_setting">Path Setting</string>
+    <string name="home_start_game">Start</string>
 </resources>

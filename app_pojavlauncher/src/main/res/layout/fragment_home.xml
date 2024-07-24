@@ -8,7 +8,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/theme_background"
         android:elevation="10dp"
+        android:padding="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.3">
 
@@ -16,13 +18,86 @@
             android:id="@+id/user_icon"
             android:layout_width="52dp"
             android:layout_height="52dp"
+            android:layout_marginBottom="90dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_steve"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/RoundedCorner"/>
+            app:shapeAppearanceOverlay="@style/RoundedCorner" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_add_user"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_icon" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_52sdp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_button_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_name">
+
+            <com.kdt.mcgui.mcVersionSpinner
+                android:id="@+id/mc_version_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                app:drawableEndPadding="@dimen/_1sdp"
+                app:drawableEndSize="20dp"
+                app:drawableStartIntegerScaling="true"
+                app:drawableStartSize="@dimen/_30sdp" />
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/game_setting"
+            android:text="@string/home_game_setting"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/background_button"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintEnd_toStartOf="@id/path_setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/frame_layout"/>
+
+        <Button
+            android:id="@+id/path_setting"
+            android:text="@string/home_path_setting"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/background_button"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintStart_toEndOf="@id/game_setting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/frame_layout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:text="@string/home_start_game"
+        android:textSize="@dimen/_30sdp"
+        android:textColor="@color/red"
+        android:background="@drawable/background_button_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.2"
+        android:layout_margin="20dp"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_52sdp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
