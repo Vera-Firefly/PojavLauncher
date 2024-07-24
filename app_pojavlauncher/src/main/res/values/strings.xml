@@ -382,4 +382,6 @@
     <string name="log_view_button_output_off">Output\nOFF</string>
     <string name="log_view_button_output_on">Output\nON</string>
     <string name="log_view_label_log_output">Log output:</string>
+
+    <string name="home_add_user">Click to add new user</string>
 </resources>
