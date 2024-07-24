@@ -11,4 +11,8 @@
 
     <color name="primary_text">#FFFFFF</color>
     <color name="secondary_text">#B2B2B2</color>
+
+    <color name="theme_color">#8DB799</color>
+    <color name="theme_color_light">#E1EBE4</color>
+    <color name="red">#E6755F</color>
 </resources>

@@ -31,7 +31,8 @@
         android:process=":launcher"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="DiscouragedApi" >
         <activity
             android:name=".MissingStorageActivity"
             android:exported="false" />
@@ -53,6 +54,10 @@
         </activity>
         <activity
             android:name=".LauncherActivity"
+            android:label="@string/app_short_name" />
+        <activity
+            android:screenOrientation="sensorLandscape"
+            android:name="com.mio.activity.NewLauncherActivity"
             android:label="@string/app_short_name" />
         <activity
             android:name=".ImportControlActivity"

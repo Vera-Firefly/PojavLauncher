@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.mio.activity.NewLauncherActivity;
+
 import net.kdt.pojavlaunch.tasks.AsyncAssetManager;
 
 public class TestStorageActivity extends Activity {
@@ -64,7 +66,7 @@ public class TestStorageActivity extends Activity {
         AsyncAssetManager.unpackComponents(this);
         AsyncAssetManager.unpackSingleFiles(this);
 
-        Intent intent =  new Intent(this, LauncherActivity.class);
+        Intent intent =  new Intent(this, NewLauncherActivity.class);
         startActivity(intent);
         finish();
     }
