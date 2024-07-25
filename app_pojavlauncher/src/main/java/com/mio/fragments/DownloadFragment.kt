@@ -4,12 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.replace
-import com.mio.fragments.child.GameDownloadFragment
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentDownloadBinding
 

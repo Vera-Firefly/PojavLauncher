@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.kdt.mcgui.ProgressLayout
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
+import com.mio.fragments.SelectAuthFragment
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
 import net.kdt.pojavlaunch.R
@@ -30,7 +31,6 @@ import net.kdt.pojavlaunch.extra.ExtraCore
 import net.kdt.pojavlaunch.extra.ExtraListener
 import net.kdt.pojavlaunch.fragments.MainMenuFragment
 import net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment
-import net.kdt.pojavlaunch.fragments.SelectAuthFragment
 import net.kdt.pojavlaunch.lifecycle.ContextAwareDoneListener
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor
 import net.kdt.pojavlaunch.modloaders.modpacks.ModloaderInstallTracker
@@ -62,7 +62,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     private val mSelectAuthMethod = ExtraListener<Boolean> { key: String?, value: Boolean? ->
         val fragment =
-            supportFragmentManager.findFragmentById(binding.containerFragment.id) as? MainMenuFragment
+            supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
                 ?: return@ExtraListener false
         Tools.swapFragment(
             this,

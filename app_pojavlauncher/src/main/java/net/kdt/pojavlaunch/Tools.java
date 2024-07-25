@@ -976,6 +976,7 @@ public final class Tools {
         // When people tab out, it might happen
         //TODO handle custom animations
         fragmentActivity.getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .setReorderingAllowed(true)
                 .addToBackStack(fragmentClass.getName())
                 .replace(R.id.container_fragment, fragmentClass, bundle, fragmentTag).commit();

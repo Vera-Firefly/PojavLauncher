@@ -1,4 +1,4 @@
-package com.mio.fragments.child
+package com.mio.fragments
 
 import android.os.Bundle
 import android.view.View

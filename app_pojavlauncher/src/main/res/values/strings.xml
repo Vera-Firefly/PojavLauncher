@@ -390,4 +390,8 @@
     <string name="download_other">Other</string>
     <string name="download_mod">Mods</string>
     <string name="download_game">Download Game</string>
+    <string name="login_microsoft">Microsoft Account</string>
+    <string name="login_other">外置登录</string>
+    <string name="login_offline">Local Account</string>
+    <string name="login_select">Please select a login method</string>
 </resources>

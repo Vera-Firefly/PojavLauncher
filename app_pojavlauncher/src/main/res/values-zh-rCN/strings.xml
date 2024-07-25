@@ -336,4 +336,7 @@
     <string name="download_other">其他</string>
     <string name="download_mod">模组</string>
     <string name="download_game">下载游戏</string>
+    <string name="login_microsoft">微软账号</string>
+    <string name="login_other">外置登录</string>
+    <string name="login_select">请选择登录方式</string>
 </resources>
