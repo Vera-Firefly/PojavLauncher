@@ -150,8 +150,7 @@ public class McVersionSpinner extends ExtendedTextView {
     private void performExtraAction(ProfileAdapterExtra extra) {
         //Replace with switch-case if you want to add more extra actions
         if (extra.id == VERSION_SPINNER_PROFILE_CREATE) {
-            Tools.swapFragment((FragmentActivity) getContext(), ProfileTypeSelectFragment.class,
-                    ProfileTypeSelectFragment.TAG, null);
+            ExtraCore.setValue(ExtraConstants.CREATE_NEW_PROFILE, true);
         }
     }
 

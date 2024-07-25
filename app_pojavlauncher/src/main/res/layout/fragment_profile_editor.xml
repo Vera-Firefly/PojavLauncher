@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app"
-    android:orientation="vertical"
-    >
+    android:background="@color/theme_background"
+    android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fadeScrollbars="true"
-        android:scrollbarThumbVertical="@color/minebutton_color">
+        android:scrollbarThumbVertical="@color/red">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,10 +35,10 @@
             <ImageView
                 android:layout_width="@dimen/_14sdp"
                 android:layout_height="@dimen/_14sdp"
-                android:src="@drawable/ic_edit_profile"
                 android:background="@drawable/background_icon_edit"
+                android:src="@drawable/ic_edit_profile"
                 app:layout_constraintBottom_toBottomOf="@+id/vprof_editor_profile_icon"
-                app:layout_constraintEnd_toEndOf="@+id/vprof_editor_profile_icon"/>
+                app:layout_constraintEnd_toEndOf="@+id/vprof_editor_profile_icon" />
 
             <TextView
                 android:id="@+id/vprof_editor_profile_name_sub"
@@ -55,12 +54,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
                 android:background="@drawable/background_line"
-                android:textSize="@dimen/_13ssp"
-
                 android:ems="10"
+
                 android:hint="@string/unnamed"
                 android:inputType="textPersonName"
                 android:paddingHorizontal="@dimen/padding_heavy"
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintTop_toBottomOf="@id/vprof_editor_profile_icon" />
 
 
@@ -89,6 +88,7 @@
 
             <Button
                 android:id="@+id/vprof_editor_version_button"
+                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -128,6 +128,7 @@
 
             <Button
                 android:id="@+id/vprof_editor_ctrl_button"
+                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -190,6 +191,7 @@
 
             <Button
                 android:id="@+id/vprof_editor_path_button"
+                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -267,27 +269,32 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/fragment_padding_medium"
         android:layout_marginVertical="13dp"
-        >
-        <com.kdt.mcgui.MineButton
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/fragment_padding_medium">
+
+        <Button
             android:id="@+id/vprof_editor_save_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_medium"
             android:layout_weight="1"
-            android:text="@string/global_save"
-            android:layout_marginEnd="@dimen/padding_medium" />
+            android:background="@drawable/background_button"
+            android:textSize="@dimen/_20sdp"
+            android:text="@string/global_save" />
 
-        <com.kdt.mcgui.MineButton
+        <Button
             android:id="@+id/vprof_editor_delete_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="@dimen/padding_medium"
+            android:layout_weight="1"
+            android:background="@drawable/background_button"
+            android:textSize="@dimen/_20sdp"
             android:text="@string/global_delete" />
     </LinearLayout>
 </LinearLayout>

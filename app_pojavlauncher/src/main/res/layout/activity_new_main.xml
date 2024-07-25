@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/theme_color_light"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/theme_color_light">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/theme_color"
-            app:titleTextColor="#FFF"
-            app:title="@string/app_short_name"
             app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/app_short_name"
+            app:titleTextColor="#FFF"
             tools:layout_editor_absoluteX="1dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/nav_main"
-                app:menu="@menu/menu_nav"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="@color/theme_color"
                 app:elevation="0dp"
-                app:itemRippleColor="@null"
-                app:itemBackground="@null"
                 app:itemActiveIndicatorStyle="@style/NavIndicator"
+                app:itemBackground="@null"
                 app:itemIconTint="@color/nav_icon"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                app:itemRippleColor="@null"
+                app:menu="@menu/menu_nav" />
 
             <Button
                 android:id="@+id/exit"
-                android:layout_gravity="end"
-                android:background="@drawable/ic_close"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_close" />
 
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_fragment"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+        <com.kdt.mcgui.ProgressLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -20,6 +20,8 @@ public class ExtraConstants {
     /* ExtraCore Constant: When we want to launch the game */
     public static final String LAUNCH_GAME = "launch_game";
 
+    public static final String CREATE_NEW_PROFILE = "create_new_profile";
+
 
 
 }
