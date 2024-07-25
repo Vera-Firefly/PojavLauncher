@@ -4,43 +4,32 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Button
-import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.R
+import net.kdt.pojavlaunch.databinding.ActivityNewMainBinding
 import net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment
 import net.kdt.pojavlaunch.prefs.LauncherPreferences
 import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment
 import kotlin.system.exitProcess
 
 class NewLauncherActivity : BaseActivity(), OnClickListener {
-    private lateinit var toolbar: Toolbar
-    private lateinit var navMain: BottomNavigationView
-    private lateinit var exit: Button
-    private lateinit var fragmentContainer: FragmentContainerView
+    private lateinit var binding: ActivityNewMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_main)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_new_main)
         initUI()
     }
 
     private fun initUI() {
-        toolbar = findViewById(R.id.toolbar)
-        navMain = findViewById(R.id.nav_main)
-        exit = findViewById(R.id.exit)
-        fragmentContainer = findViewById(R.id.container_fragment)
-
-        setSupportActionBar(toolbar)
-        navMain.setOnItemSelectedListener {
+        setSupportActionBar(binding.toolbar)
+        binding.navMain.setOnItemSelectedListener {
             val id = it.itemId
-            val fragment = supportFragmentManager.findFragmentById(fragmentContainer.id)
+            val fragment = supportFragmentManager.findFragmentById(binding.containerFragment.id)
             if (id == R.id.home) {
                 if (fragment !is HomeFragment) {
                     swapFragment(HomeFragment::class.java, HomeFragment.TAG)
@@ -56,12 +45,12 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             }
             return@setOnItemSelectedListener true;
         }
-        exit.setOnClickListener(this)
-        navMain.selectedItemId = R.id.home
+        binding.exit.setOnClickListener(this)
+        binding.navMain.selectedItemId = R.id.home
     }
 
     override fun onClick(v: View?) {
-        if (v == exit) {
+        if (v == binding.exit) {
             finish()
             exitProcess(0)
         }
