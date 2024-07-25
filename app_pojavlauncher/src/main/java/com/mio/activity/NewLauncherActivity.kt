@@ -192,7 +192,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     private fun swapFragment(clazz: Class<out Fragment>, tag: String) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
             .replace(
                 R.id.container_fragment,
                 clazz,

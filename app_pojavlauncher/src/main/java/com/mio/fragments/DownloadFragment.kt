@@ -13,6 +13,7 @@ class DownloadFragment() : Fragment(R.layout.fragment_download), OnClickListener
     companion object {
         const val TAG = "DownloadFragment"
     }
+
     private lateinit var binding: FragmentDownloadBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class DownloadFragment() : Fragment(R.layout.fragment_download), OnClickListener
         binding.modpackDownload.setOnClickListener(this)
 
         childFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
             .setReorderingAllowed(true)
             .addToBackStack(tag)
             .replace(
