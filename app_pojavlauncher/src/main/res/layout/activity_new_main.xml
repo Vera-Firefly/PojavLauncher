@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/theme_color_light"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/theme_color_light"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/theme_color"
-        app:titleTextColor="#FFF"
-        app:title="@string/app_short_name"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_main"
-            app:menu="@menu/menu_nav"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:background="@color/theme_color"
-            app:elevation="0dp"
-            app:itemRippleColor="@null"
-            app:itemBackground="@null"
-            app:itemActiveIndicatorStyle="@style/NavIndicator"
-            app:itemIconTint="@color/nav_icon"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            app:titleTextColor="#FFF"
+            app:title="@string/app_short_name"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="1dp">
 
-        <Button
-            android:id="@+id/exit"
-            android:layout_gravity="end"
-            android:background="@drawable/ic_close"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_main"
+                app:menu="@menu/menu_nav"
+                android:background="@color/theme_color"
+                app:elevation="0dp"
+                app:itemRippleColor="@null"
+                app:itemBackground="@null"
+                app:itemActiveIndicatorStyle="@style/NavIndicator"
+                app:itemIconTint="@color/nav_icon"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
-    </androidx.appcompat.widget.Toolbar>
+            <Button
+                android:id="@+id/exit"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_fragment"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -387,4 +387,7 @@
     <string name="home_game_setting">Game Setting</string>
     <string name="home_path_setting">Path Setting</string>
     <string name="home_start_game">Start</string>
+    <string name="download_other">Other</string>
+    <string name="download_mod">Mods</string>
+    <string name="download_game">Download Game</string>
 </resources>

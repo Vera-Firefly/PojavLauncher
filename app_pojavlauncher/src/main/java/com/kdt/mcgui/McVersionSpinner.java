@@ -36,20 +36,20 @@ import fr.spse.extended_view.ExtendedTextView;
  * A class implementing custom spinner like behavior, notably:
  * dropdown popup view with a custom direction.
  */
-public class mcVersionSpinner extends ExtendedTextView {
+public class McVersionSpinner extends ExtendedTextView {
     private static final int VERSION_SPINNER_PROFILE_CREATE = 0;
 
-    public mcVersionSpinner(@NonNull Context context) {
+    public McVersionSpinner(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public mcVersionSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public McVersionSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public mcVersionSpinner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public McVersionSpinner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -140,7 +140,7 @@ public class mcVersionSpinner extends ExtendedTextView {
                     return;
                 }
                 final int xOffset = (int) (getX() + getWidth() + 5);
-                mPopupWindow.showAsDropDown(mcVersionSpinner.this,  xOffset, offset);
+                mPopupWindow.showAsDropDown(McVersionSpinner.this,  xOffset, offset);
                 // Post() is required for the layout inflation phase
                 post(() -> mListView.setSelection(mSelectedIndex));
             }

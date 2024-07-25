@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/left_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:text="@string/create_profile_vanilla_like_versions"
+                    android:textSize="@dimen/_20sdp" />
+
+                <View
+                    android:id="@+id/view"
+                    style="@style/ThickDivider"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/padding_large" />
+
+                <fr.spse.extended_view.ExtendedButton
+                    android:id="@+id/vanilla_profile"
+                    android:textSize="@dimen/_15sdp"
+                    android:padding="5dp"
+                    android:background="@drawable/background_button"
+                    android:drawableStart="@drawable/ic_minecraft"
+                    app:drawableStartSize="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:text="@string/create_profile_vanilla"/>
+
+                <fr.spse.extended_view.ExtendedButton
+                    android:id="@+id/optifine_profile"
+                    android:textSize="@dimen/_15sdp"
+                    android:padding="5dp"
+                    android:background="@drawable/background_button"
+                    android:drawableStart="@drawable/ic_optifine"
+                    app:drawableStartSize="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:text="@string/create_profile_optifine"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/left_card"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_modded_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/padding_large"
+                        android:text="@string/create_profile_modded_versions"
+                        android:textSize="@dimen/_20sdp"/>
+
+                    <View
+                        android:id="@+id/view_modded"
+                        style="@style/ThickDivider"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/padding_large" />
+
+                    <fr.spse.extended_view.ExtendedButton
+                        android:id="@+id/modded_profile_fabric"
+                        android:textSize="@dimen/_15sdp"
+                        android:padding="5dp"
+                        android:background="@drawable/background_button"
+                        android:drawableStart="@drawable/ic_fabric"
+                        app:drawableStartSize="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/padding_large"
+                        android:layout_marginTop="@dimen/padding_large"
+                        android:text="@string/modloader_dl_install_fabric" />
+
+                    <fr.spse.extended_view.ExtendedButton
+                        android:id="@+id/modded_profile_quilt"
+                        android:textSize="@dimen/_15sdp"
+                        android:padding="5dp"
+                        android:background="@drawable/background_button"
+                        android:drawableStart="@drawable/ic_quilt"
+                        app:drawableStartSize="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/padding_large"
+                        android:layout_marginTop="@dimen/padding_large"
+                        android:text="@string/modloader_dl_install_quilt" />
+
+                    <fr.spse.extended_view.ExtendedButton
+                        android:id="@+id/modded_profile_forge"
+                        android:textSize="@dimen/_15sdp"
+                        android:padding="5dp"
+                        android:background="@drawable/background_button"
+                        android:drawableStart="@drawable/ic_forge"
+                        app:drawableStartSize="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/padding_large"
+                        android:layout_marginTop="@dimen/padding_large"
+                        android:text="@string/modloader_dl_install_forge" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

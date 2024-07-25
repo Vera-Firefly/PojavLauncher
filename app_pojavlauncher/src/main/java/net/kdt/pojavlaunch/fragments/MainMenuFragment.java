@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.kdt.mcgui.mcVersionSpinner;
+import com.kdt.mcgui.McVersionSpinner;
 
 import net.kdt.pojavlaunch.CustomControlsActivity;
 import net.kdt.pojavlaunch.R;
@@ -25,7 +25,7 @@ import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 public class MainMenuFragment extends Fragment {
     public static final String TAG = "MainMenuFragment";
 
-    private mcVersionSpinner mVersionSpinner;
+    private McVersionSpinner mVersionSpinner;
 
     public MainMenuFragment(){
         super(R.layout.fragment_launcher);

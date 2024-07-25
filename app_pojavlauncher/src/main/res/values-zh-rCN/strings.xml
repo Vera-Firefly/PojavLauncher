@@ -333,4 +333,7 @@
     <string name="home_game_setting">游戏设置</string>
     <string name="home_path_setting">路径设置</string>
     <string name="home_start_game">启动</string>
+    <string name="download_other">其他</string>
+    <string name="download_mod">模组</string>
+    <string name="download_game">下载游戏</string>
 </resources>
