@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_background"
+    android:background="@drawable/background_button_normal"
     android:orientation="vertical">
 
     <ScrollView
@@ -292,9 +292,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_medium"
             android:layout_weight="1"
             android:background="@drawable/background_button"
             android:textSize="@dimen/_20sdp"
             android:text="@string/global_delete" />
+
+        <Button
+            android:id="@+id/vprof_editor_cancle_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_weight="1"
+            android:background="@drawable/background_button"
+            android:textSize="@dimen/_20sdp"
+            android:text="@string/global_cancel" />
     </LinearLayout>
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
+import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.ActivityNewMainBinding
@@ -120,6 +121,16 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_main)
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            .addToBackStack("ROOT")
+            .replace(
+                R.id.container_fragment,
+                HomeFragment::class.java,
+                null,
+                HomeFragment.TAG
+            )
+            .commit()
         initUI()
         IconCacheJanitor.runJanitor()
         mRequestNotificationPermissionLauncher = registerForActivityResult(
@@ -180,7 +191,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             return@setOnItemSelectedListener true;
         }
         binding.exit.setOnClickListener(this)
-        binding.navMain.selectedItemId = R.id.home
+//        binding.navMain.selectedItemId = R.id.home
     }
 
     override fun onClick(v: View?) {

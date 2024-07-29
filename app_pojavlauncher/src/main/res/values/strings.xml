@@ -229,6 +229,7 @@
     <string name="profiles_profile_name">Name</string>
     <string name="profiles_profile_version">Version</string>
     <string name="global_delete">Delete</string>
+    <string name="global_cancel">Cancel</string>
     <string name="pedit_java_runtime">Java Runtime</string>
     <string name="pedit_renderer">Renderer</string>
     <string name="arc_capes_title">Cosmetica Capes</string>
@@ -394,4 +395,6 @@
     <string name="login_other">外置登录</string>
     <string name="login_offline">Local Account</string>
     <string name="login_select">Please select a login method</string>
+    <string name="menu_add_account">Add account</string>
+    <string name="menu_remove_account">Remove current account</string>
 </resources>

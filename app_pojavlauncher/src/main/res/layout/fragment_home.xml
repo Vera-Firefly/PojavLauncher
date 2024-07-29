@@ -8,6 +8,7 @@
         android:elevation="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@color/theme_background"
@@ -112,6 +113,15 @@
             android:layout_margin="20dp"
             android:layout_width="0dp"
             android:layout_height="@dimen/_52sdp"/>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_fragment_home"
+            android:layout_margin="@dimen/_10sdp"
+            android:elevation="100dp"
+            app:layout_constraintStart_toEndOf="@id/left"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import net.kdt.pojavlaunch.R;
@@ -91,6 +92,20 @@ public class McVersionSpinner extends ExtendedTextView {
             performExtraAction((ProfileAdapterExtra) currentSelection);
         } else {
             Tools.swapFragment(fragmentActivity, ProfileEditorFragment.class, ProfileEditorFragment.TAG, null);
+        }
+    }
+
+    public void openProfileEditor(Fragment fragment) {
+        Object currentSelection = mProfileAdapter.getItem(mSelectedIndex);
+        if (currentSelection instanceof ProfileAdapterExtra) {
+            performExtraAction((ProfileAdapterExtra) currentSelection);
+        } else {
+            fragment.getChildFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(ProfileEditorFragment.TAG)
+                    .replace(R.id.container_fragment_home, ProfileEditorFragment.class, null, ProfileEditorFragment.TAG)
+                    .commit();
         }
     }
 

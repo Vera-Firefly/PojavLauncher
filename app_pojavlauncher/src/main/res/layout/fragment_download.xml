@@ -64,6 +64,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_fragment_download"
+            android:layout_margin="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/scrollview"

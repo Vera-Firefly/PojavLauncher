@@ -50,7 +50,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
-    private Button mSaveButton, mDeleteButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
+    private Button mSaveButton, mDeleteButton,mCancelButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
     private TextView mDefaultPath, mDefaultVersion, mDefaultControl;
@@ -105,6 +105,10 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
             }
 
             Tools.removeCurrentFragment(requireActivity());
+        });
+
+        mCancelButton.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
         });
 
         mGameDirButton.setOnClickListener(v -> {
@@ -203,6 +207,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
 
         mSaveButton = view.findViewById(R.id.vprof_editor_save_button);
         mDeleteButton = view.findViewById(R.id.vprof_editor_delete_button);
+        mCancelButton = view.findViewById(R.id.vprof_editor_cancle_button);
         mControlSelectButton = view.findViewById(R.id.vprof_editor_ctrl_button);
         mVersionSelectButton = view.findViewById(R.id.vprof_editor_version_button);
         mGameDirButton = view.findViewById(R.id.vprof_editor_path_button);

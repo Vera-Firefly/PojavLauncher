@@ -199,6 +199,7 @@
     <string name="profiles_profile_name">名称</string>
     <string name="profiles_profile_version">版本</string>
     <string name="global_delete">删除</string>
+    <string name="global_cancel">取消</string>
     <string name="pedit_java_runtime">Java 运行环境</string>
     <string name="pedit_renderer">渲染器</string>
     <string name="arc_capes_title">Cosmetica 披风</string>
@@ -340,4 +341,6 @@
     <string name="login_other">外置登录</string>
     <string name="login_offline">离线账号</string>
     <string name="login_select">请选择登录方式</string>
+    <string name="menu_add_account">添加账号</string>
+    <string name="menu_remove_account">删除当前账号</string>
 </resources>

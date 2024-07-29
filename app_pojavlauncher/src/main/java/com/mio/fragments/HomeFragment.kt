@@ -1,11 +1,17 @@
 package com.mio.fragments
 
+import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
+import android.widget.PopupMenu
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.PopupMenuCompat
 import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McVersionSpinner
 import net.kdt.pojavlaunch.R
@@ -38,7 +44,7 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             binding.userIcon -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-            binding.gameSetting -> binding.mcVersionSpinner.openProfileEditor(requireActivity())
+            binding.gameSetting -> binding.mcVersionSpinner.openProfileEditor(this)
 //            binding.pathSetting->
             binding.start -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true)
             binding.edit -> editAccount()
@@ -50,14 +56,50 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
             ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
             return
         } else {
-            AlertDialog.Builder(requireActivity())
-                .setMessage(R.string.warning_remove_account)
-                .setPositiveButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.global_delete) { _, _ ->
-                    binding.accountSpinner.removeCurrentAccount()
+            val popupMenu = PopupMenu(requireActivity(), binding.edit, Gravity.START);
+            popupMenu.inflate(R.menu.menu_edit)
+            popupMenu.setOnMenuItemClickListener { it ->
+                when (it.itemId) {
+                    R.id.add -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                    R.id.remove -> AlertDialog.Builder(requireActivity())
+                        .setMessage(R.string.warning_remove_account)
+                        .setPositiveButton(android.R.string.cancel, null)
+                        .setNegativeButton(R.string.global_delete) { _, _ ->
+                            binding.accountSpinner.removeCurrentAccount()
+                        }
+                        .show();
                 }
-                .show();
+                false
+            }
+            if (Build.VERSION.SDK_INT > 28){
+                popupMenu.setForceShowIcon(true)
+            }
+            popupMenu.show()
         }
+    }
 
+    private fun swapFragment(clazz: Class<out Fragment>, tag: String, bundle: Bundle? = null) {
+        childFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            .setReorderingAllowed(true)
+            .addToBackStack(tag)
+            .replace(R.id.container_fragment_home, clazz, bundle, tag)
+            .commit()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (childFragmentManager.backStackEntryCount > 0) {
+                    childFragmentManager.popBackStack()
+                    return
+                }
+                if (parentFragmentManager.backStackEntryCount > 1) {
+                    parentFragmentManager.popBackStack()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 }
