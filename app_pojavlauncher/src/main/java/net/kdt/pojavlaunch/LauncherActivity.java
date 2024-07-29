@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.kdt.mcgui.ProgressLayout;
-import com.kdt.mcgui.mcAccountSpinner;
+import com.kdt.mcgui.McAccountSpinner;
 
 import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
@@ -56,7 +56,7 @@ public class LauncherActivity extends BaseActivity {
                 if(data != null) Tools.launchModInstaller(this, data);
             });
 
-    private mcAccountSpinner mAccountSpinner;
+    private McAccountSpinner mAccountSpinner;
     private FragmentContainerView mFragmentView;
     private ImageButton mSettingsButton, mDeleteAccountButton;
     private ProgressLayout mProgressLayout;

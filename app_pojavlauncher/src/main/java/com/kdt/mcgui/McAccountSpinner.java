@@ -3,30 +3,24 @@ package com.kdt.mcgui;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.core.content.res.ResourcesCompat;
-
 
 import net.kdt.pojavlaunch.PojavProfile;
 import net.kdt.pojavlaunch.R;
@@ -34,8 +28,8 @@ import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.authenticator.listener.DoneListener;
 import net.kdt.pojavlaunch.authenticator.listener.ErrorListener;
 import net.kdt.pojavlaunch.authenticator.listener.ProgressListener;
-import net.kdt.pojavlaunch.authenticator.microsoft.PresentedException;
 import net.kdt.pojavlaunch.authenticator.microsoft.MicrosoftBackgroundLogin;
+import net.kdt.pojavlaunch.authenticator.microsoft.PresentedException;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.extra.ExtraListener;
@@ -44,16 +38,15 @@ import net.kdt.pojavlaunch.value.MinecraftAccount;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import fr.spse.extended_view.ExtendedTextView;
 
-public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.OnItemSelectedListener {
-    public mcAccountSpinner(@NonNull Context context) {
+public class McAccountSpinner extends AppCompatSpinner implements AdapterView.OnItemSelectedListener {
+    public McAccountSpinner(@NonNull Context context) {
         this(context, null);
     }
-    public mcAccountSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public McAccountSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -122,7 +115,7 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     /* Triggered when we need to do microsoft login */
     private final ExtraListener<Uri> mMicrosoftLoginListener = (key, value) -> {
-        mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));
+        mLoginBarPaint.setColor(getResources().getColor(R.color.theme_color));
         new MicrosoftBackgroundLogin(false, value.getQueryParameter("code")).performLogin(
                 mProgressListener, mDoneListener, mErrorListener);
         return false;
@@ -148,8 +141,7 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
     @SuppressLint("ClickableViewAccessibility")
     private void init(){
         // Set visual properties
-        setBackgroundColor(getResources().getColor(R.color.background_status_bar));
-        mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));
+        mLoginBarPaint.setColor(getResources().getColor(R.color.theme_color));
         mLoginBarPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen._2sdp));
 
         // Set behavior
@@ -163,12 +155,12 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     @Override
     public final void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position == 0){  // Add account button
-            if(mAccountList.size() > 1){
-                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
-            }
-            return;
-        }
+//        if(position == 0){  // Add account button
+//            if(mAccountList.size() > 1){
+//                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
+//            }
+//            return;
+//        }
 
         pickAccount(position);
         if(mSelectecAccount != null)
@@ -189,10 +181,12 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     public void removeCurrentAccount(){
         int position = getSelectedItemPosition();
-        if(position == 0) return;
         File accountFile = new File(Tools.DIR_ACCOUNT_NEW, mAccountList.get(position)+".json");
         if(accountFile.exists()) accountFile.delete();
         mAccountList.remove(position);
+        if (mAccountList.size() == 0) {
+            mAccountList.add(getContext().getString(R.string.main_add_account));
+        }
 
         reloadAccounts(false, 0);
     }
@@ -220,24 +214,6 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         return mLoginStep >= MAX_LOGIN_STEP;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void setNoAccountBehavior(){
-        // Set custom behavior when no account are present, to make it act as a button
-        if(mAccountList.size() != 1){
-            // Remove any touch listener
-            setOnTouchListener(null);
-            return;
-        }
-
-        // Make the spinner act like a button, since there is no item to really select
-        setOnTouchListener((v, event) -> {
-            if(event.getAction() != MotionEvent.ACTION_UP) return false;
-            // The activity should intercept this and spawn another fragment
-            ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
-            return true;
-        });
-    }
-
     /**
      * Reload the spinner, from memory or from scratch. A default account can be selected
      * @param fromFiles Whether we use files as the source of truth
@@ -247,9 +223,11 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         if(fromFiles){
             mAccountList.clear();
 
-            mAccountList.add(getContext().getString(R.string.main_add_account));
             File accountFolder = new File(Tools.DIR_ACCOUNT_NEW);
             if(accountFolder.exists()){
+                if (accountFolder.list().length == 0) {
+                    mAccountList.add(getContext().getString(R.string.main_add_account));
+                }
                 for (String fileName : accountFolder.list()) {
                     mAccountList.add(fileName.substring(0, fileName.length() - 5));
                 }
@@ -265,16 +243,12 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         pickAccount(overridePosition == 0 ? -1 : overridePosition);
         if(mSelectecAccount != null)
             performLogin(mSelectecAccount);
-
-        // Remove or add the behavior if needed
-        setNoAccountBehavior();
-
     }
 
     private void performLogin(MinecraftAccount minecraftAccount){
         if(minecraftAccount.isLocal()) return;
 
-        mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));
+        mLoginBarPaint.setColor(getResources().getColor(R.color.theme_color));
         if(minecraftAccount.isMicrosoft){
             if(System.currentTimeMillis() > minecraftAccount.expiresAt){
                 // Perform login only if needed
@@ -306,43 +280,15 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
             // Get the current profile, or the first available profile if the wanted one is unavailable
             selectedAccount = PojavProfile.getCurrentProfileContent(getContext(), null);
             int spinnerPosition = selectedAccount == null
-                    ? mAccountList.size() <= 1 ? 0 : 1
+                    ? 0
                     : mAccountList.indexOf(selectedAccount.username);
             setSelection(spinnerPosition, false);
         }
 
         mSelectecAccount = selectedAccount;
-        setImageFromSelectedAccount();
     }
-
-    @Deprecated()
-    /* Legacy behavior, update the head image manually for the selected account */
-    private void setImageFromSelectedAccount(){
-        BitmapDrawable oldBitmapDrawable = mHeadDrawable;
-
-        if(mSelectecAccount != null){
-            ExtendedTextView view = ((ExtendedTextView) getSelectedView());
-            if(view != null){
-                Bitmap bitmap = mSelectecAccount.getSkinFace();
-                if(bitmap != null) {
-                    mHeadDrawable = new BitmapDrawable(getResources(), bitmap);
-                    view.setCompoundDrawables(mHeadDrawable, null, null, null);
-                }else{
-                    view.setCompoundDrawables(null, null, null, null);
-                }
-                view.postProcessDrawables();
-            }
-        }
-
-        if(oldBitmapDrawable != null){
-            oldBitmapDrawable.getBitmap().recycle();
-        }
-    }
-
 
     private static class AccountAdapter extends ArrayAdapter<String> {
-
-        private final HashMap<String, Drawable> mImageCache = new HashMap<>();
         public AccountAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
             super(context, resource, objects);
         }
@@ -360,18 +306,6 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
             }
             ExtendedTextView textview = (ExtendedTextView) convertView;
             textview.setText(super.getItem(position));
-
-            // Handle the "Add account section"
-            if(position == 0) textview.setCompoundDrawables(ResourcesCompat.getDrawable(parent.getResources(), R.drawable.ic_add, null), null, null, null);
-            else {
-                String username = super.getItem(position);
-                Drawable accountHead = mImageCache.get(username);
-                if (accountHead == null){
-                    accountHead = new BitmapDrawable(parent.getResources(), MinecraftAccount.getSkinFace(username));
-                    mImageCache.put(username, accountHead);
-                }
-                textview.setCompoundDrawables(accountHead, null, null, null);
-            }
             return convertView;
         }
     }

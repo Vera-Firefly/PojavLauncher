@@ -288,19 +288,19 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         Toast.makeText(this, R.string.notification_permission_toast, Toast.LENGTH_LONG).show()
     }
 
-    fun checkForNotificationPermission(): Boolean {
+    private fun checkForNotificationPermission(): Boolean {
         return Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.POST_NOTIFICATIONS
         ) != PackageManager.PERMISSION_DENIED
     }
 
-    fun askForNotificationPermission(onSuccessRunnable: Runnable?) {
+    private fun askForNotificationPermission(onSuccessRunnable: Runnable?) {
         if (Build.VERSION.SDK_INT < 33) return
         if (onSuccessRunnable != null) {
             mRequestNotificationPermissionRunnable = WeakReference(onSuccessRunnable)
         }
-        mRequestNotificationPermissionLauncher!!.launch(Manifest.permission.POST_NOTIFICATIONS)
+        mRequestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
 }

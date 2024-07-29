@@ -338,5 +338,6 @@
     <string name="download_game">下载游戏</string>
     <string name="login_microsoft">微软账号</string>
     <string name="login_other">外置登录</string>
+    <string name="login_offline">离线账号</string>
     <string name="login_select">请选择登录方式</string>
 </resources>

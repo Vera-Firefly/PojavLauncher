@@ -29,15 +29,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/RoundedCorner" />
 
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_add_user"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+            <com.kdt.mcgui.McAccountSpinner
+                android:id="@+id/account_spinner"
+                android:background="@null"
+                android:popupBackground="@drawable/background_button_normal"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/user_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_icon" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/edit"
+                android:background="@drawable/ic_edit"
+                app:layout_constraintTop_toTopOf="@id/account_spinner"
+                app:layout_constraintBottom_toBottomOf="@id/account_spinner"
+                app:layout_constraintEnd_toEndOf="@id/account_spinner"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
 
             <FrameLayout
                 android:id="@+id/frame_layout"
@@ -47,7 +57,7 @@
                 android:background="@drawable/background_button_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_name">
+                app:layout_constraintTop_toBottomOf="@id/account_spinner">
 
                 <com.kdt.mcgui.McVersionSpinner
                     android:id="@+id/mc_version_spinner"
@@ -91,6 +101,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/start"
             android:text="@string/home_start_game"
             android:textSize="@dimen/_30sdp"
             android:textColor="@color/red"
