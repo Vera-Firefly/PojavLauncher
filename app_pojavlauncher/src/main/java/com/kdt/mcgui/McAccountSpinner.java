@@ -52,7 +52,7 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
     }
 
     private final List<String> mAccountList = new ArrayList<>(2);
-    private MinecraftAccount mSelectecAccount = null;
+    private static MinecraftAccount mSelectecAccount = null;
 
     /* Display the head of the current profile, here just to allow bitmap recycling */
     private BitmapDrawable mHeadDrawable;
@@ -202,7 +202,7 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         return mSelectecAccount != null && !mSelectecAccount.accessToken.equals("0");
     }
 
-    public MinecraftAccount getSelectedAccount(){
+    public static MinecraftAccount getSelectedAccount(){
         return mSelectecAccount;
     }
 

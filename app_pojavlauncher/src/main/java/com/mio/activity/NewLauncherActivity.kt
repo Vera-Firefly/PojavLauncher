@@ -1,6 +1,8 @@
 package com.mio.activity
 
 import android.Manifest
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.NotificationManager
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -9,6 +11,8 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.animation.BounceInterpolator
+import android.view.animation.CycleInterpolator
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,20 +21,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.kdt.mcgui.McAccountSpinner
 import com.kdt.mcgui.ProgressLayout
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
-import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.ActivityNewMainBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
 import net.kdt.pojavlaunch.extra.ExtraListener
-import net.kdt.pojavlaunch.fragments.MainMenuFragment
 import net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment
 import net.kdt.pojavlaunch.lifecycle.ContextAwareDoneListener
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor
@@ -39,7 +42,6 @@ import net.kdt.pojavlaunch.modloaders.modpacks.imagecache.IconCacheJanitor
 import net.kdt.pojavlaunch.prefs.LauncherPreferences
 import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper
-import net.kdt.pojavlaunch.progresskeeper.TaskCountListener
 import net.kdt.pojavlaunch.services.ProgressServiceKeeper
 import net.kdt.pojavlaunch.tasks.AsyncMinecraftDownloader
 import net.kdt.pojavlaunch.tasks.AsyncVersionList
@@ -65,11 +67,9 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         val fragment =
             supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
                 ?: return@ExtraListener false
-        Tools.swapFragment(
-            this,
+        fragment.swapFragment(
             SelectAuthFragment::class.java,
-            SelectAuthFragment.TAG,
-            null
+            SelectAuthFragment.TAG
         )
         false
     }
@@ -95,11 +95,11 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             return@ExtraListener false
         }
 
-//        if (mAccountSpinner.getSelectedAccount() == null) {
-//            Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show()
-//            ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-//            return@ExtraListener false
-//        }
+        if (McAccountSpinner.getSelectedAccount() == null) {
+            Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show()
+            ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+            return@ExtraListener false
+        }
         val normalizedVersionId =
             AsyncMinecraftDownloader.normalizeVersionId(prof.lastVersionId)
         val mcVersion =
@@ -120,6 +120,12 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initUI()
+        startAnimation()
+        initPojav()
+    }
+
+    private fun initUI() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_main)
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
@@ -131,7 +137,80 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
                 HomeFragment.TAG
             )
             .commit()
-        initUI()
+        setSupportActionBar(binding.toolbar)
+        binding.navMain.setOnItemSelectedListener {
+            val id = it.itemId
+            val fragment = supportFragmentManager.findFragmentById(binding.containerFragment.id)
+            if (id == R.id.home) {
+                if (fragment !is HomeFragment) {
+                    swapFragment(HomeFragment::class.java, HomeFragment.TAG)
+                }
+            } else if (id == R.id.download) {
+                if (fragment !is DownloadFragment) {
+                    swapFragment(DownloadFragment::class.java, DownloadFragment.TAG)
+                }
+            } else if (id == R.id.setting) {
+                if (fragment !is LauncherPreferenceFragment) {
+                    swapFragment(LauncherPreferenceFragment::class.java, "SETTINGS_FRAGMENT")
+                }
+            }
+            return@setOnItemSelectedListener true;
+        }
+        binding.exit.setOnClickListener(this)
+        binding.start.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.exit -> {
+                finish()
+                exitProcess(0)
+            }
+
+            binding.start -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true)
+        }
+    }
+
+    private fun startAnimation() {
+        val scaleX = ObjectAnimator.ofFloat(binding.start, "scaleX", 1f, 1.8f, 1.5f).setDuration(2000)
+        scaleX.interpolator = BounceInterpolator()
+        scaleX.start()
+        val scaleY = ObjectAnimator.ofFloat(binding.start, "scaleY", 1f, 1.8f, 1.5f).setDuration(2000)
+        scaleY.interpolator = BounceInterpolator()
+        scaleY.start()
+        val animator: ObjectAnimator = ObjectAnimator.ofFloat(binding.start, "rotation", 0f, 10f)
+        animator.setDuration(2000)
+        animator.interpolator = CycleInterpolator(2f)
+        animator.start()
+    }
+
+    private fun swapFragment(clazz: Class<out Fragment>, tag: String) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            .replace(
+                R.id.container_fragment,
+                clazz,
+                null,
+                tag
+            )
+            .commit()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val fragment =
+                supportFragmentManager.findFragmentByTag(MicrosoftLoginFragment.TAG) as MicrosoftLoginFragment?
+            if (fragment != null && fragment.isVisible) {
+                if (fragment.canGoBack()) {
+                    fragment.goBack()
+                    return false
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    private fun initPojav() {
         IconCacheJanitor.runJanitor()
         mRequestNotificationPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -168,63 +247,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         binding.progressLayout.observe(ProgressLayout.INSTALL_MODPACK)
         binding.progressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT)
         binding.progressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST)
-    }
-
-    private fun initUI() {
-        setSupportActionBar(binding.toolbar)
-        binding.navMain.setOnItemSelectedListener {
-            val id = it.itemId
-            val fragment = supportFragmentManager.findFragmentById(binding.containerFragment.id)
-            if (id == R.id.home) {
-                if (fragment !is HomeFragment) {
-                    swapFragment(HomeFragment::class.java, HomeFragment.TAG)
-                }
-            } else if (id == R.id.download) {
-                if (fragment !is DownloadFragment) {
-                    swapFragment(DownloadFragment::class.java, DownloadFragment.TAG)
-                }
-            } else if (id == R.id.setting) {
-                if (fragment !is LauncherPreferenceFragment) {
-                    swapFragment(LauncherPreferenceFragment::class.java, "SETTINGS_FRAGMENT")
-                }
-            }
-            return@setOnItemSelectedListener true;
-        }
-        binding.exit.setOnClickListener(this)
-//        binding.navMain.selectedItemId = R.id.home
-    }
-
-    override fun onClick(v: View?) {
-        if (v == binding.exit) {
-            finish()
-            exitProcess(0)
-        }
-    }
-
-    private fun swapFragment(clazz: Class<out Fragment>, tag: String) {
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .replace(
-                R.id.container_fragment,
-                clazz,
-                null,
-                tag
-            )
-            .commit()
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            val fragment =
-                supportFragmentManager.findFragmentByTag(MicrosoftLoginFragment.TAG) as MicrosoftLoginFragment?
-            if (fragment != null && fragment.isVisible) {
-                if (fragment.canGoBack()) {
-                    fragment.goBack()
-                    return false
-                }
-            }
-        }
-        return super.onKeyDown(keyCode, event)
     }
 
     override fun onAttachedToWindow() {
