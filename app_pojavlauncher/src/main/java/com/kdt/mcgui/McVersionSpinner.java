@@ -175,6 +175,7 @@ public class McVersionSpinner extends ExtendedTextView {
     @SuppressLint("ClickableViewAccessibility")
     private void getPopupWindow() {
         mListView = (ListView) inflate(getContext(), R.layout.spinner_mc_version, null);
+        mProfileAdapter.setListView(mListView);
         mListView.setAdapter(mProfileAdapter);
         mListView.setOnItemClickListener((parent, view, position, id) -> {
             Object item = mProfileAdapter.getItem(position);
@@ -209,7 +210,7 @@ public class McVersionSpinner extends ExtendedTextView {
         mPopupWindow.setExitTransition((Transition) mPopupAnimation);
     }
 
-    private void hidePopup(boolean animate) {
+    public void hidePopup(boolean animate) {
         if (mPopupWindow == null) {
             return;
         }

@@ -1,19 +1,15 @@
 package com.mio.fragments
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Button
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.PopupMenuCompat
 import androidx.fragment.app.Fragment
-import com.kdt.mcgui.McVersionSpinner
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
@@ -34,6 +30,12 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
         binding.pathSetting.setOnClickListener(this)
         binding.start.setOnClickListener(this)
         binding.edit.setOnClickListener(this)
+
+        binding.mcVersionSpinner.profileAdapter.setOnClick {
+            binding.mcVersionSpinner.setProfileSelection(it)
+            binding.mcVersionSpinner.hidePopup(true)
+            binding.mcVersionSpinner.openProfileEditor(this)
+        }
     }
 
     override fun onResume() {

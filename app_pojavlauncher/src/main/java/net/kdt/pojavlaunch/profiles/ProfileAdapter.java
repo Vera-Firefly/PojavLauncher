@@ -6,11 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.core.graphics.ColorUtils;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.extra.ExtraConstants;
+import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
@@ -31,6 +35,8 @@ public class ProfileAdapter extends BaseAdapter {
     private final MinecraftProfile dummy = new MinecraftProfile();
     private List<String> mProfileList;
     private ProfileAdapterExtra[] mExtraEntires;
+    private OnClick onClick;
+    private ListView listView;
 
     public ProfileAdapter(ProfileAdapterExtra[] extraEntries) {
         reloadProfiles(extraEntries);
@@ -81,10 +87,38 @@ public class ProfileAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        if (v == null) v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_version_profile_layout,parent,false);
-        setView(v, getItem(position), true);
-        return v;
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_version_profile_layout, parent, false);
+            holder = new ViewHolder();
+            holder.textView = convertView.findViewById(R.id.name);
+            holder.edit = convertView.findViewById(R.id.edit);
+            holder.delete = convertView.findViewById(R.id.delete);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        View finalConvertView = convertView;
+        convertView.setOnClickListener(v -> {
+            listView.performItemClick(finalConvertView, position, getItemId(position));
+        });
+        setView(holder.textView, getItem(position), true);
+        if (getItem(position) instanceof ProfileAdapterExtra) {
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
+        holder.edit.setOnClickListener(v -> onClick.onClick(position));
+        holder.delete.setOnClickListener(v -> {
+            if (LauncherProfiles.mainProfileJson.profiles.size() > 1) {
+                String key = getItem(position).toString();
+                ProfileIconCache.dropIcon(key);
+                LauncherProfiles.mainProfileJson.profiles.remove(key);
+                LauncherProfiles.write();
+                ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, key);
+                notifyDataSetChanged();
+            }
+        });
+        return convertView;
     }
 
     public void setViewProfile(View v, String nm, boolean displaySelection) {
@@ -146,5 +180,23 @@ public class ProfileAdapter extends BaseAdapter {
         if(extraEntries == null) mExtraEntires = new ProfileAdapterExtra[0];
         else mExtraEntires = extraEntries;
         this.reloadProfiles();
+    }
+
+    public void setOnClick(OnClick onClick) {
+        this.onClick = onClick;
+    }
+
+    public void setListView(ListView listView) {
+        this.listView = listView;
+    }
+
+    public interface OnClick {
+        void onClick(int position);
+    }
+
+    private class ViewHolder {
+        public ExtendedTextView textView;
+        public Button edit;
+        public Button delete;
     }
 }

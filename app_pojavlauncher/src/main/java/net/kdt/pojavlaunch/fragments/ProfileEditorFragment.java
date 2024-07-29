@@ -93,7 +93,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         mSaveButton.setOnClickListener(v -> {
             ProfileIconCache.dropIcon(mProfileKey);
             save();
-            Tools.backToMainMenu(requireActivity());
+            getParentFragmentManager().popBackStack();
         });
 
         mDeleteButton.setOnClickListener(v -> {
@@ -104,7 +104,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
                 ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, DELETED_PROFILE);
             }
 
-            Tools.removeCurrentFragment(requireActivity());
+            getParentFragmentManager().popBackStack();
         });
 
         mCancelButton.setOnClickListener(v -> {
@@ -184,6 +184,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
 
     private MinecraftProfile getProfile(@NonNull String profile){
         MinecraftProfile minecraftProfile;
+
         if(getArguments() == null) {
             minecraftProfile = new MinecraftProfile(LauncherProfiles.mainProfileJson.profiles.get(profile));
             mProfileKey = profile;
