@@ -4,6 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McAccountSpinner
 import com.mio.utils.AnimUtil
+import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
@@ -49,7 +53,12 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
             binding.mcVersionSpinner.hidePopup(true)
             binding.mcVersionSpinner.openProfileEditor(this)
         }
+
+        binding.accountSpinner.setUserIcon(binding.userIcon)
         startAnimation()
+        binding.accountSpinner.post {
+            binding.accountSpinner.refreshUserIcon()
+        }
     }
 
     override fun onResume() {
@@ -67,6 +76,7 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
                 ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
                 closeAuthMenu()
             }
+
             binding.delete -> {
                 AlertDialog.Builder(requireActivity())
                     .setMessage(R.string.warning_remove_account)

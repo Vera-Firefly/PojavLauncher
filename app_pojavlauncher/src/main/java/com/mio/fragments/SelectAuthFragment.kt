@@ -21,10 +21,8 @@ class SelectAuthFragment : BaseFragment(R.layout.fragment_select_auth_method) {
         binding = FragmentSelectAuthMethodBinding.bind(view)
         parentID = R.id.container_fragment_home
         binding.microsoft.setOnClickListener {
-            Tools.swapFragment(
-                requireActivity(),
-                MicrosoftLoginFragment::class.java, MicrosoftLoginFragment.TAG, null
-            )
+            parentFragmentManager.popBackStack()
+            swapParentFragment(MicrosoftLoginFragment::class.java, MicrosoftLoginFragment.TAG)
         }
         binding.other.setOnClickListener {
             swapParentFragment(OtherLoginFragment::class.java, OtherLoginFragment.TAG)

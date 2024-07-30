@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Keep;
@@ -22,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.PojavProfile;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -67,6 +69,8 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
     /* When a login is performed in the background, we need to know where we are */
     private final static int MAX_LOGIN_STEP = 5;
     private int mLoginStep = 0;
+    private ImageView userIcon;
+    private AccountAdapter accountAdapter;
 
     /* Login listeners */
     private final ProgressListener mProgressListener = step -> {
@@ -115,7 +119,7 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     /* Triggered when we need to do microsoft login */
     private final ExtraListener<Uri> mMicrosoftLoginListener = (key, value) -> {
-        mLoginBarPaint.setColor(getResources().getColor(R.color.theme_color));
+        mLoginBarPaint.setColor(getResources().getColor(R.color.theme_color_2));
         new MicrosoftBackgroundLogin(false, value.getQueryParameter("code")).performLogin(
                 mProgressListener, mDoneListener, mErrorListener);
         return false;
@@ -163,8 +167,10 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 //        }
 
         pickAccount(position);
-        if(mSelectecAccount != null)
+        if (mSelectecAccount != null) {
             performLogin(mSelectecAccount);
+            refreshUserIcon();
+        }
     }
 
     @Override
@@ -184,10 +190,6 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         File accountFile = new File(Tools.DIR_ACCOUNT_NEW, mAccountList.get(position)+".json");
         if(accountFile.exists()) accountFile.delete();
         mAccountList.remove(position);
-        if (mAccountList.isEmpty()) {
-            mAccountList.add(getContext().getString(R.string.main_add_account));
-        }
-
         reloadAccounts(false, 0);
     }
 
@@ -233,19 +235,24 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
         if (mAccountList.isEmpty()) {
             mAccountList.add(getContext().getString(R.string.main_add_account));
-        } else if (mAccountList.size() > 1) {
+        } else if (mAccountList.contains(getContext().getString(R.string.main_add_account))) {
             mAccountList.remove(getContext().getString(R.string.main_add_account));
             overridePosition--;
         }
-        String[] accountArray = mAccountList.toArray(new String[0]);
-        AccountAdapter accountAdapter = new AccountAdapter(getContext(), R.layout.item_minecraft_account, accountArray);
-        accountAdapter.setDropDownViewResource(R.layout.item_minecraft_account);
-        setAdapter(accountAdapter);
+        if (accountAdapter == null) {
+            accountAdapter = new AccountAdapter(getContext(), R.layout.item_minecraft_account, mAccountList);
+            accountAdapter.setDropDownViewResource(R.layout.item_minecraft_account);
+            setAdapter(accountAdapter);
+        } else {
+            accountAdapter.notifyDataSetChanged();
+        }
 
         // Pick what's available, might just be the the add account "button"
         pickAccount(overridePosition == 0 ? -1 : overridePosition);
-        if(mSelectecAccount != null)
+        if (mSelectecAccount != null) {
             performLogin(mSelectecAccount);
+            refreshUserIcon();
+        }
     }
 
     private void performLogin(MinecraftAccount minecraftAccount){
@@ -291,8 +298,38 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         mSelectecAccount = selectedAccount;
     }
 
+    public void refreshUserIcon() {
+        if (mSelectecAccount == null || userIcon == null) {
+            return;
+        }
+        if (mSelectecAccount.isMicrosoft) {
+            if (mSelectecAccount.getSkinFace() != null) {
+                userIcon.setImageDrawable(new BitmapDrawable(getResources(), mSelectecAccount.getSkinFace()));
+            } else {
+                PojavApplication.sExecutorService.execute(() -> {
+                            mSelectecAccount.updateSkinFace();
+                            if (mSelectecAccount.getSkinFace() != null) {
+                                userIcon.setImageDrawable(
+                                        new BitmapDrawable(
+                                                getResources(),
+                                                mSelectecAccount.getSkinFace()
+                                        )
+                                );
+                            }
+                        }
+                );
+            }
+        } else {
+            userIcon.setImageResource(R.drawable.ic_steve);
+        }
+    }
+
+    public void setUserIcon(ImageView userIcon) {
+        this.userIcon = userIcon;
+    }
+
     private static class AccountAdapter extends ArrayAdapter<String> {
-        public AccountAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
+        public AccountAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
             super(context, resource, objects);
         }
 
