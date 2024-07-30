@@ -12,7 +12,7 @@ import net.kdt.pojavlaunch.fragments.OptiFineInstallFragment
 import net.kdt.pojavlaunch.fragments.ProfileEditorFragment
 import net.kdt.pojavlaunch.fragments.QuiltInstallFragment
 
-class GameDownloadFragment() : Fragment(R.layout.fragment_download_game), OnClickListener {
+class GameDownloadFragment() : BaseFragment(R.layout.fragment_download_game), OnClickListener {
     companion object {
         const val TAG = "GameDownloadFragment"
     }
@@ -22,6 +22,7 @@ class GameDownloadFragment() : Fragment(R.layout.fragment_download_game), OnClic
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDownloadGameBinding.bind(view)
+        parentID = R.id.container_fragment_download
         binding.vanillaProfile.setOnClickListener(this)
         binding.optifineProfile.setOnClickListener(this)
         binding.moddedProfileFabric.setOnClickListener(this)
@@ -29,19 +30,10 @@ class GameDownloadFragment() : Fragment(R.layout.fragment_download_game), OnClic
         binding.moddedProfileQuilt.setOnClickListener(this)
     }
 
-    private fun swapFragment(clazz: Class<out Fragment>, tag: String, bundle: Bundle? = null) {
-        parentFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .setReorderingAllowed(true)
-            .addToBackStack(tag)
-            .replace(R.id.container_fragment_download, clazz, bundle, tag)
-            .commit()
-    }
-
     override fun onClick(v: View?) {
         when (v) {
             binding.vanillaProfile -> {
-                swapFragment(
+                swapParentFragment(
                     ProfileEditorFragment::class.java,
                     ProfileEditorFragment.TAG,
                     Bundle(1)
@@ -49,26 +41,26 @@ class GameDownloadFragment() : Fragment(R.layout.fragment_download_game), OnClic
             }
 
             binding.optifineProfile -> {
-                swapFragment(
+                swapParentFragment(
                     OptiFineInstallFragment::class.java,
                     OptiFineInstallFragment.TAG
                 )
             }
 
             binding.moddedProfileFabric -> {
-                swapFragment(
+                swapParentFragment(
                     FabricInstallFragment::class.java, FabricInstallFragment.TAG
                 )
             }
 
             binding.moddedProfileForge -> {
-                swapFragment(
+                swapParentFragment(
                     ForgeInstallFragment::class.java, ForgeInstallFragment.TAG
                 )
             }
 
             binding.moddedProfileQuilt -> {
-                swapFragment(
+                swapParentFragment(
                     QuiltInstallFragment::class.java, QuiltInstallFragment.TAG
                 )
             }

@@ -2,14 +2,14 @@ package com.mio.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import android.view.animation.BounceInterpolator
+import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentSelectAuthMethodBinding
-import net.kdt.pojavlaunch.fragments.LocalLoginFragment
 import net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment
 
-class SelectAuthFragment : Fragment(R.layout.fragment_select_auth_method) {
+class SelectAuthFragment : BaseFragment(R.layout.fragment_select_auth_method) {
     companion object {
         const val TAG = "SelectAuthFragment"
     }
@@ -19,6 +19,7 @@ class SelectAuthFragment : Fragment(R.layout.fragment_select_auth_method) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSelectAuthMethodBinding.bind(view)
+        parentID = R.id.container_fragment_home
         binding.microsoft.setOnClickListener {
             Tools.swapFragment(
                 requireActivity(),
@@ -26,16 +27,10 @@ class SelectAuthFragment : Fragment(R.layout.fragment_select_auth_method) {
             )
         }
         binding.other.setOnClickListener {
-            Tools.swapFragment(
-                requireActivity(),
-                OtherLoginFragment::class.java, OtherLoginFragment.TAG, null
-            )
+            swapParentFragment(OtherLoginFragment::class.java, OtherLoginFragment.TAG)
         }
         binding.local.setOnClickListener {
-            Tools.swapFragment(
-                requireActivity(),
-                LocalLoginFragment::class.java, LocalLoginFragment.TAG, null
-            )
+            swapParentFragment(LocalLoginFragment::class.java, LocalLoginFragment.TAG)
         }
         binding.close.setOnClickListener {
             parentFragmentManager.popBackStack()

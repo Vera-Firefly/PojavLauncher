@@ -38,6 +38,7 @@
 
                 <fr.spse.extended_view.ExtendedButton
                     android:id="@+id/vanilla_profile"
+                    android:stateListAnimator="@xml/animate_scale"
                     android:textSize="@dimen/_15sdp"
                     android:padding="5dp"
                     android:background="@drawable/background_button"
@@ -51,6 +52,7 @@
 
                 <fr.spse.extended_view.ExtendedButton
                     android:id="@+id/optifine_profile"
+                    android:stateListAnimator="@xml/animate_scale"
                     android:textSize="@dimen/_15sdp"
                     android:padding="5dp"
                     android:background="@drawable/background_button"
@@ -104,6 +106,7 @@
 
                     <fr.spse.extended_view.ExtendedButton
                         android:id="@+id/modded_profile_fabric"
+                        android:stateListAnimator="@xml/animate_scale"
                         android:textSize="@dimen/_15sdp"
                         android:padding="5dp"
                         android:background="@drawable/background_button"
@@ -117,6 +120,7 @@
 
                     <fr.spse.extended_view.ExtendedButton
                         android:id="@+id/modded_profile_quilt"
+                        android:stateListAnimator="@xml/animate_scale"
                         android:textSize="@dimen/_15sdp"
                         android:padding="5dp"
                         android:background="@drawable/background_button"
@@ -130,6 +134,7 @@
 
                     <fr.spse.extended_view.ExtendedButton
                         android:id="@+id/modded_profile_forge"
+                        android:stateListAnimator="@xml/animate_scale"
                         android:textSize="@dimen/_15sdp"
                         android:padding="5dp"
                         android:background="@drawable/background_button"

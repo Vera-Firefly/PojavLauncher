@@ -68,7 +68,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         val fragment =
             supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
                 ?: return@ExtraListener false
-        fragment.swapFragment(
+        fragment.swapChildFragment(
             SelectAuthFragment::class.java,
             SelectAuthFragment.TAG
         )

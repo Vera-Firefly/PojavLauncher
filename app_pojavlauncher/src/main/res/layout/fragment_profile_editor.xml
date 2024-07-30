@@ -86,9 +86,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vprof_editor_profile_name" />
 
-            <Button
+            <com.mio.ui.PressScaleButton
                 android:id="@+id/vprof_editor_version_button"
-                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -126,9 +125,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vprof_editor_version_spinner" />
 
-            <Button
+            <com.mio.ui.PressScaleButton
                 android:id="@+id/vprof_editor_ctrl_button"
-                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -189,9 +187,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vprof_editor_jre_args" />
 
-            <Button
+            <com.mio.ui.PressScaleButton
                 android:id="@+id/vprof_editor_path_button"
-                android:background="@drawable/background_button"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:paddingHorizontal="@dimen/padding_large"
@@ -277,34 +274,31 @@
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/fragment_padding_medium">
 
-        <Button
+        <com.mio.ui.PressScaleButton
             android:id="@+id/vprof_editor_save_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/padding_medium"
             android:layout_weight="1"
-            android:background="@drawable/background_button"
             android:textSize="@dimen/_20sdp"
             android:text="@string/global_save" />
 
-        <Button
+        <com.mio.ui.PressScaleButton
             android:id="@+id/vprof_editor_delete_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_marginEnd="@dimen/padding_medium"
             android:layout_weight="1"
-            android:background="@drawable/background_button"
             android:textSize="@dimen/_20sdp"
             android:text="@string/global_delete" />
 
-        <Button
+        <com.mio.ui.PressScaleButton
             android:id="@+id/vprof_editor_cancle_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_weight="1"
-            android:background="@drawable/background_button"
             android:textSize="@dimen/_20sdp"
             android:text="@string/global_cancel" />
     </LinearLayout>

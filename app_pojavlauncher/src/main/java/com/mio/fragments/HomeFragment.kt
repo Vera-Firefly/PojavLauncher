@@ -25,7 +25,7 @@ import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
 
-class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
+class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
     companion object {
         const val TAG = "HomeFragment"
     }
@@ -36,6 +36,7 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        childID = R.id.container_fragment_home
         binding.userIcon.setOnClickListener(this)
         binding.gameSetting.setOnClickListener(this)
         binding.pathSetting.setOnClickListener(this)
@@ -62,14 +63,20 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
             binding.gameSetting -> binding.mcVersionSpinner.openProfileEditor(this)
 //            binding.pathSetting->
             binding.edit -> openAuthMenu()
-            binding.add -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-            binding.delete -> AlertDialog.Builder(requireActivity())
-                .setMessage(R.string.warning_remove_account)
-                .setPositiveButton(android.R.string.cancel, null)
-                .setNegativeButton(R.string.global_delete) { _, _ ->
-                    binding.accountSpinner.removeCurrentAccount()
-                }
-                .show()
+            binding.add -> {
+                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                closeAuthMenu()
+            }
+            binding.delete -> {
+                AlertDialog.Builder(requireActivity())
+                    .setMessage(R.string.warning_remove_account)
+                    .setPositiveButton(android.R.string.cancel, null)
+                    .setNegativeButton(R.string.global_delete) { _, _ ->
+                        binding.accountSpinner.removeCurrentAccount()
+                    }
+                    .show()
+                closeAuthMenu()
+            }
         }
     }
 
@@ -196,15 +203,6 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
             0f
         )
             .start()
-    }
-
-    fun swapFragment(clazz: Class<out Fragment>, tag: String, bundle: Bundle? = null) {
-        childFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .setReorderingAllowed(true)
-            .addToBackStack(tag)
-            .replace(R.id.container_fragment_home, clazz, bundle, tag)
-            .commit()
     }
 
     override fun onAttach(context: Context) {

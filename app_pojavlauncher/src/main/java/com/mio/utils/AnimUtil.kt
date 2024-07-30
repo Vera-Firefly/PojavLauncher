@@ -14,12 +14,10 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "translationY", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "translationY", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
         }
 
         fun playTranslationX(
@@ -28,12 +26,22 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "translationX", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "translationX", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
+        }
+
+        fun playTranslationZ(
+            view: View,
+            duration: Long,
+            interpolator: TimeInterpolator? = null,
+            vararg values: Float
+        ): Animator {
+            return ObjectAnimator.ofFloat(view, "translationZ", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
+            }
         }
 
         fun playRotation(
@@ -42,12 +50,10 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "rotation", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "rotation", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
         }
 
         fun playScaleX(
@@ -56,12 +62,10 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "scaleX", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "scaleX", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
         }
 
         fun playScaleY(
@@ -70,12 +74,10 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "scaleY", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "scaleY", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
         }
 
         fun playAlpha(
@@ -84,12 +86,10 @@ class AnimUtil {
             interpolator: TimeInterpolator? = null,
             vararg values: Float
         ): Animator {
-            val animator = ObjectAnimator.ofFloat(view, "alpha", *values)
-                .setDuration(duration)
-            if (interpolator != null) {
-                animator.interpolator = interpolator
+            return ObjectAnimator.ofFloat(view, "alpha", *values).apply {
+                this.duration = duration
+                this.interpolator = interpolator
             }
-            return animator
         }
     }
 }
