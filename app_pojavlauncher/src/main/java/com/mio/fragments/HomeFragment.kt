@@ -11,12 +11,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
 import android.view.View.VISIBLE
+import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.BounceInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McAccountSpinner
+import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
@@ -45,6 +48,7 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
             binding.mcVersionSpinner.hidePopup(true)
             binding.mcVersionSpinner.openProfileEditor(this)
         }
+        startAnimation()
     }
 
     override fun onResume() {
@@ -111,12 +115,12 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
                 }
             })
             objectAnimator.start()
-            startAnimation(binding.add)
+            startAuthMenuAnimation(binding.add)
             offsetY += binding.edit.height * -1.5f
             ObjectAnimator.ofFloat(binding.delete, "translationY", 0f, offsetY)
                 .setDuration(500)
                 .start();
-            startAnimation(binding.delete)
+            startAuthMenuAnimation(binding.delete)
         } else {
             closeAuthMenu()
         }
@@ -135,28 +139,63 @@ class HomeFragment() : Fragment(R.layout.fragment_home), OnClickListener {
             }
         })
         objectAnimator.start()
-        endAnimation(binding.add)
+        endAuthMenuAnimation(binding.add)
 
         offsetY += binding.edit.height * -1.5f
         ObjectAnimator.ofFloat(binding.delete, "translationY", offsetY, 0f)
             .setDuration(500).start()
-        endAnimation(binding.delete)
+        endAuthMenuAnimation(binding.delete)
     }
 
-    private fun startAnimation(view: View) {
-        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f, 1.5f).setDuration(1000)
-        scaleX.interpolator = BounceInterpolator()
-        scaleX.start()
-        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f, 1.5f).setDuration(1000)
-        scaleY.interpolator = BounceInterpolator()
-        scaleY.start()
-        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).setDuration(500).start()
+    private fun startAuthMenuAnimation(view: View) {
+        AnimUtil.playScaleX(view, 1000, BounceInterpolator(), 0f, 1f, 1.5f).start()
+        AnimUtil.playScaleY(view, 1000, BounceInterpolator(), 0f, 1f, 1.5f).start()
+        AnimUtil.playAlpha(view, 500, null, 0f, 1f).start()
     }
 
-    private fun endAnimation(view: View) {
-        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f).setDuration(500).start()
-        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f).setDuration(500).start()
-        ObjectAnimator.ofFloat(view, "alpha", 1f, 0f).setDuration(500).start()
+    private fun endAuthMenuAnimation(view: View) {
+        AnimUtil.playScaleX(view, 500, BounceInterpolator(), 1f, 0f).start()
+        AnimUtil.playScaleY(view, 500, BounceInterpolator(), 1f, 0f).start()
+        AnimUtil.playAlpha(view, 500, null, 1f, 0f).start()
+    }
+
+    private fun startAnimation() {
+        AnimUtil.playTranslationX(binding.left, 500, BounceInterpolator(), -400f, 0f)
+            .start()
+        AnimUtil.playTranslationY(binding.userIcon, 2000, BounceInterpolator(), -400f, 0f)
+            .start()
+        AnimUtil.playTranslationX(binding.userIcon, 2000, BounceInterpolator(), -200f, 0f)
+            .start()
+        AnimUtil.playRotation(binding.userIcon, 2000, BounceInterpolator(), -160f, 0f)
+            .start()
+        AnimUtil.playTranslationX(binding.accountSpinner, 1500, BounceInterpolator(), -400f, 0f)
+            .start()
+        AnimUtil.playTranslationY(binding.edit, 1000, BounceInterpolator(), -400f, 0f)
+            .start()
+        AnimUtil.playTranslationY(
+            binding.frameLayout,
+            500,
+            AnticipateOvershootInterpolator(),
+            300f,
+            0f
+        )
+            .start()
+        AnimUtil.playTranslationY(
+            binding.gameSetting,
+            800,
+            AnticipateOvershootInterpolator(),
+            300f,
+            0f
+        )
+            .start()
+        AnimUtil.playTranslationY(
+            binding.pathSetting,
+            800,
+            AnticipateOvershootInterpolator(),
+            300f,
+            0f
+        )
+            .start()
     }
 
     fun swapFragment(clazz: Class<out Fragment>, tag: String, bundle: Bundle? = null) {

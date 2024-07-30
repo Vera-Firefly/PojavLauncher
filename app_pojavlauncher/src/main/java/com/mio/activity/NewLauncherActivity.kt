@@ -26,6 +26,7 @@ import com.kdt.mcgui.ProgressLayout
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
+import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
 import net.kdt.pojavlaunch.R
@@ -172,16 +173,10 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     }
 
     private fun startAnimation() {
-        val scaleX = ObjectAnimator.ofFloat(binding.start, "scaleX", 1f, 1.8f, 1.5f).setDuration(2000)
-        scaleX.interpolator = BounceInterpolator()
-        scaleX.start()
-        val scaleY = ObjectAnimator.ofFloat(binding.start, "scaleY", 1f, 1.8f, 1.5f).setDuration(2000)
-        scaleY.interpolator = BounceInterpolator()
-        scaleY.start()
-        val animator: ObjectAnimator = ObjectAnimator.ofFloat(binding.start, "rotation", 0f, 10f)
-        animator.setDuration(2000)
-        animator.interpolator = CycleInterpolator(2f)
-        animator.start()
+        AnimUtil.playScaleX(binding.start, 2000, BounceInterpolator(), 1f, 1.8f, 1.5f).start()
+        AnimUtil.playScaleY(binding.start, 2000, BounceInterpolator(), 1f, 1.8f, 1.5f).start()
+        AnimUtil.playRotation(binding.start, 2000, CycleInterpolator(2f), 0f, 10f).start()
+        AnimUtil.playTranslationY(binding.start, 2500, BounceInterpolator(), -500f, 0f).start()
     }
 
     private fun swapFragment(clazz: Class<out Fragment>, tag: String) {

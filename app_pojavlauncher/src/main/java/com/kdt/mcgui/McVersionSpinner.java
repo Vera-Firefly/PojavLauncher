@@ -2,6 +2,7 @@ package com.kdt.mcgui;
 
 import static net.kdt.pojavlaunch.fragments.ProfileEditorFragment.DELETED_PROFILE;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.transition.Slide;
@@ -12,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -154,7 +156,16 @@ public class McVersionSpinner extends ExtendedTextView {
                     return;
                 }
                 final int xOffset = (int) (getX() + getWidth() + 5);
-                mPopupWindow.showAsDropDown(McVersionSpinner.this,  xOffset, offset);
+                final int yOffset = (int) (getY() + getHeight());
+                mPopupWindow.showAsDropDown(McVersionSpinner.this,  xOffset, yOffset);
+                ObjectAnimator scaleX = ObjectAnimator.ofFloat(mListView, "scaleX", 0, 1);
+                scaleX.setDuration(500);
+                scaleX.setInterpolator(new BounceInterpolator());
+                scaleX.start();
+                ObjectAnimator scaleY = ObjectAnimator.ofFloat(mListView, "scaleY", 0, 1);
+                scaleY.setDuration(500);
+                scaleY.setInterpolator(new BounceInterpolator());
+                scaleY.start();
                 // Post() is required for the layout inflation phase
                 post(() -> mListView.setSelection(mSelectedIndex));
             }
