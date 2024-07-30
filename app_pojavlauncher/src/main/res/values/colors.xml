@@ -14,7 +14,7 @@
 
     <color name="theme_color">#8DB799</color>
     <color name="theme_color_light">#E1EBE4</color>
+    <color name="theme_color_2">#E6755F</color>
+    <color name="theme_color_2_light">#F1D9D5</color>
     <color name="theme_background">#F9F9F9</color>
-    <color name="red">#E6755F</color>
-    <color name="red_light">#F1D9D5</color>
 </resources>

@@ -23,7 +23,7 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view.setBackgroundColor(getResources().getColor(R.color.background_app));
+        view.setBackgroundColor(getResources().getColor(R.color.theme_background));
         super.onViewCreated(view, savedInstanceState);
     }
 

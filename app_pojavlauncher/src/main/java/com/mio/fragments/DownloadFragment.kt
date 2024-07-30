@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentDownloadBinding
+import net.kdt.pojavlaunch.fragments.SearchModFragment
 
 class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickListener {
     companion object {
@@ -35,7 +36,10 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
     override fun onClick(v: View?) {
         when (v) {
             binding.gameDownload -> {
-
+                swapChildFragment(
+                    GameDownloadFragment::class.java,
+                    GameDownloadFragment.TAG
+                )
             }
 
             binding.modDownload -> {
@@ -43,7 +47,10 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
             }
 
             binding.modpackDownload -> {
-
+                swapChildFragment(
+                    SearchModFragment::class.java,
+                    SearchModFragment.TAG
+                )
             }
         }
     }

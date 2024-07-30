@@ -78,14 +78,14 @@ public class FileSelectorFragment extends Fragment {
 
         mSelectFolderButton.setOnClickListener(v -> {
             ExtraCore.setValue(ExtraConstants.FILE_SELECTOR, removeLockPath(mFileListView.getFullPath().getAbsolutePath()));
-            Tools.removeCurrentFragment(requireActivity());
+            getParentFragmentManager().popBackStack();
         });
 
         mFileListView.setFileSelectedListener(new FileSelectedListener() {
             @Override
             public void onFileSelected(File file, String path) {
                 ExtraCore.setValue(ExtraConstants.FILE_SELECTOR, removeLockPath(path));
-                Tools.removeCurrentFragment(requireActivity());
+                getParentFragmentManager().popBackStack();
             }
         });
     }

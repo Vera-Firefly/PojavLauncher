@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/selectableItemBackground"
     tools:ignore="RtlSymmetry"
+    android:stateListAnimator="@xml/animate_scale"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_52sdp">
 
@@ -24,6 +25,7 @@
 
     <Button
         android:id="@+id/edit"
+        android:stateListAnimator="@xml/animate_scale"
         android:background="@drawable/ic_edit"
         app:layout_constraintEnd_toStartOf="@id/delete"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +35,7 @@
 
     <Button
         android:id="@+id/delete"
+        android:stateListAnimator="@xml/animate_scale"
         android:background="@drawable/ic_close_theme_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

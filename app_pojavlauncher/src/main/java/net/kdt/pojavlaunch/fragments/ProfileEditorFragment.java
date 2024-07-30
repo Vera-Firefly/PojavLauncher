@@ -118,8 +118,12 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
             bundle.putBoolean(FileSelectorFragment.BUNDLE_SHOW_FILE, false);
             mValueToConsume = FileSelectorFragment.BUNDLE_SELECT_FOLDER;
 
-            Tools.swapFragment(requireActivity(),
-                    FileSelectorFragment.class, FileSelectorFragment.TAG, bundle);
+            getParentFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(TAG)
+                    .replace(getArguments() == null ? R.id.container_fragment_home : R.id.container_fragment_download, FileSelectorFragment.class, bundle, TAG)
+                    .commit();
         });
 
         mControlSelectButton.setOnClickListener(v -> {
@@ -128,8 +132,12 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
             bundle.putString(FileSelectorFragment.BUNDLE_ROOT_PATH, Tools.CTRLMAP_PATH);
             mValueToConsume = FileSelectorFragment.BUNDLE_SELECT_FILE;
 
-            Tools.swapFragment(requireActivity(),
-                    FileSelectorFragment.class, FileSelectorFragment.TAG, bundle);
+            getParentFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(TAG)
+                    .replace(getArguments() == null ? R.id.container_fragment_home : R.id.container_fragment_download, FileSelectorFragment.class, bundle, TAG)
+                    .commit();
         });
 
         // Setup the expendable list behavior
