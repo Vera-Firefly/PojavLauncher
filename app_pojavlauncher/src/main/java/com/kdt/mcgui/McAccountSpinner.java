@@ -184,7 +184,7 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         File accountFile = new File(Tools.DIR_ACCOUNT_NEW, mAccountList.get(position)+".json");
         if(accountFile.exists()) accountFile.delete();
         mAccountList.remove(position);
-        if (mAccountList.size() == 0) {
+        if (mAccountList.isEmpty()) {
             mAccountList.add(getContext().getString(R.string.main_add_account));
         }
 
@@ -225,15 +225,18 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
             File accountFolder = new File(Tools.DIR_ACCOUNT_NEW);
             if(accountFolder.exists()){
-                if (accountFolder.list().length == 0) {
-                    mAccountList.add(getContext().getString(R.string.main_add_account));
-                }
                 for (String fileName : accountFolder.list()) {
                     mAccountList.add(fileName.substring(0, fileName.length() - 5));
                 }
             }
         }
 
+        if (mAccountList.isEmpty()) {
+            mAccountList.add(getContext().getString(R.string.main_add_account));
+        } else if (mAccountList.size() > 1) {
+            mAccountList.remove(getContext().getString(R.string.main_add_account));
+            overridePosition--;
+        }
         String[] accountArray = mAccountList.toArray(new String[0]);
         AccountAdapter accountAdapter = new AccountAdapter(getContext(), R.layout.item_minecraft_account, accountArray);
         accountAdapter.setDropDownViewResource(R.layout.item_minecraft_account);
