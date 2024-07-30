@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.mio.activity.NewLauncherActivity;
+
 import net.kdt.pojavlaunch.LauncherActivity;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
@@ -36,8 +38,8 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
     private void setupNotificationRequestPreference() {
         Preference mRequestNotificationPermissionPreference = requirePreference("notification_permission_request");
         Activity activity = getActivity();
-        if(activity instanceof LauncherActivity) {
-            LauncherActivity launcherActivity = (LauncherActivity)activity;
+        if(activity instanceof NewLauncherActivity) {
+            NewLauncherActivity launcherActivity = (NewLauncherActivity)activity;
             mRequestNotificationPermissionPreference.setVisible(!launcherActivity.checkForNotificationPermission());
             mRequestNotificationPermissionPreference.setOnPreferenceClickListener(preference -> {
                 launcherActivity.askForNotificationPermission(()->mRequestNotificationPermissionPreference.setVisible(false));

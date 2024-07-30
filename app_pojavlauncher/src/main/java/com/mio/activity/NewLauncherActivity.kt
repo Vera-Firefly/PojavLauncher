@@ -1,8 +1,6 @@
 package com.mio.activity
 
 import android.Manifest
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.NotificationManager
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -54,70 +52,15 @@ import kotlin.system.exitProcess
 
 class NewLauncherActivity : BaseActivity(), OnClickListener {
     private lateinit var binding: ActivityNewMainBinding
-    private lateinit var mRequestNotificationPermissionLauncher: ActivityResultLauncher<String>
-    private var mRequestNotificationPermissionRunnable: WeakReference<Runnable>? = null
-    private lateinit var mNotificationManager: NotificationManager
-    private lateinit var mProgressServiceKeeper: ProgressServiceKeeper
-    private lateinit var mInstallTracker: ModloaderInstallTracker
-    private val mBackPreferenceListener = ExtraListener { _: String?, value: String ->
-        if (value == "true") onBackPressed()
-        false
-    }
-
-    private val mSelectAuthMethod = ExtraListener<Boolean> { key: String?, value: Boolean? ->
-        val fragment =
-            supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
-                ?: return@ExtraListener false
-        fragment.swapChildFragment(
-            SelectAuthFragment::class.java,
-            SelectAuthFragment.TAG
-        )
-        false
-    }
-    private val mLaunchGameListener = ExtraListener<Boolean> { key: String?, value: Boolean? ->
-        if (binding.progressLayout.hasProcesses()) {
-            Toast.makeText(this, R.string.tasks_ongoing, Toast.LENGTH_LONG).show()
-            return@ExtraListener false
-        }
-        val selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(
-            LauncherPreferences.PREF_KEY_CURRENT_PROFILE,
-            ""
-        )
-        if (LauncherProfiles.mainProfileJson == null || !LauncherProfiles.mainProfileJson.profiles.containsKey(
-                selectedProfile
-            )
-        ) {
-            Toast.makeText(this, R.string.error_no_version, Toast.LENGTH_LONG).show()
-            return@ExtraListener false
-        }
-        val prof = LauncherProfiles.mainProfileJson.profiles[selectedProfile]
-        if (prof?.lastVersionId == null || "Unknown" == prof.lastVersionId) {
-            Toast.makeText(this, R.string.error_no_version, Toast.LENGTH_LONG).show()
-            return@ExtraListener false
-        }
-
-        if (McAccountSpinner.getSelectedAccount() == null) {
-            Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show()
-            ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-            return@ExtraListener false
-        }
-        val normalizedVersionId =
-            AsyncMinecraftDownloader.normalizeVersionId(prof.lastVersionId)
-        val mcVersion =
-            AsyncMinecraftDownloader.getListedVersion(normalizedVersionId)
-        MinecraftDownloader().start(
-            this,
-            mcVersion,
-            normalizedVersionId,
-            ContextAwareDoneListener(this, normalizedVersionId)
-        )
-        false
-    }
-
-    private val createProfileListener = ExtraListener<Boolean> { key: String?, value: Boolean? ->
-        binding.navMain.selectedItemId = R.id.download
-        false
-    }
+    private lateinit var launcher: ActivityResultLauncher<String>
+    private var runnable: WeakReference<Runnable>? = null
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var progressServiceKeeper: ProgressServiceKeeper
+    private lateinit var installTracker: ModloaderInstallTracker
+    private lateinit var mBackPreferenceListener: ExtraListener<String>
+    private lateinit var selectAuthListener: ExtraListener<Boolean>
+    private lateinit var launchGameListener: ExtraListener<Boolean>
+    private lateinit var createProfileListener: ExtraListener<Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,45 +148,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         return super.onKeyDown(keyCode, event)
     }
 
-    private fun initPojav() {
-        IconCacheJanitor.runJanitor()
-        mRequestNotificationPermissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isAllowed: Boolean? ->
-            if (!isAllowed!!) handleNoNotificationPermission()
-            else {
-                val runnable = mRequestNotificationPermissionRunnable?.get()
-                runnable?.run()
-            }
-        }
-        checkNotificationPermission()
-        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        ProgressKeeper.addTaskCountListener { taskCount: Int ->
-            if (taskCount > 0) {
-                Tools.runOnUiThread { mNotificationManager.cancel(NotificationUtils.NOTIFICATION_ID_GAME_START) }
-            }
-        }
-        mProgressServiceKeeper = ProgressServiceKeeper(this)
-        ProgressKeeper.addTaskCountListener(mProgressServiceKeeper)
-        ProgressKeeper.addTaskCountListener(binding.progressLayout)
-        ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPreferenceListener)
-        ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethod)
-        ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, mLaunchGameListener)
-        ExtraCore.addExtraListener(ExtraConstants.CREATE_NEW_PROFILE, createProfileListener)
-        AsyncVersionList().getVersionList({ versions: JMinecraftVersionList? ->
-            ExtraCore.setValue(
-                ExtraConstants.RELEASE_TABLE,
-                versions
-            )
-        }, false)
-        mInstallTracker = ModloaderInstallTracker(this)
-        binding.progressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT)
-        binding.progressLayout.observe(ProgressLayout.UNPACK_RUNTIME)
-        binding.progressLayout.observe(ProgressLayout.INSTALL_MODPACK)
-        binding.progressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT)
-        binding.progressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST)
-    }
-
     override fun onAttachedToWindow() {
         LauncherPreferences.computeNotchSize(this)
     }
@@ -251,30 +155,129 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     override fun onResume() {
         super.onResume()
         ContextExecutor.setActivity(this)
-        mInstallTracker.attach()
+        installTracker.attach()
     }
 
     override fun onPause() {
         super.onPause()
         ContextExecutor.clearActivity()
-        mInstallTracker.detach()
+        installTracker.detach()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         binding.progressLayout.cleanUpObservers()
         ProgressKeeper.removeTaskCountListener(binding.progressLayout)
-        ProgressKeeper.removeTaskCountListener(mProgressServiceKeeper)
+        ProgressKeeper.removeTaskCountListener(progressServiceKeeper)
         ExtraCore.removeExtraListenerFromValue(
             ExtraConstants.BACK_PREFERENCE,
             mBackPreferenceListener
         )
-        ExtraCore.removeExtraListenerFromValue(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethod)
-        ExtraCore.removeExtraListenerFromValue(ExtraConstants.LAUNCH_GAME, mLaunchGameListener)
+        ExtraCore.removeExtraListenerFromValue(
+            ExtraConstants.SELECT_AUTH_METHOD,
+            selectAuthListener
+        )
+        ExtraCore.removeExtraListenerFromValue(ExtraConstants.LAUNCH_GAME, launchGameListener)
         ExtraCore.removeExtraListenerFromValue(
             ExtraConstants.CREATE_NEW_PROFILE,
             createProfileListener
         )
+    }
+
+    private fun initPojav() {
+        mBackPreferenceListener = ExtraListener { _: String?, value: String ->
+            if (value == "true") onBackPressed()
+            false
+        }
+        selectAuthListener = ExtraListener<Boolean> { _: String?, _: Boolean? ->
+            val fragment =
+                supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
+                    ?: return@ExtraListener false
+            fragment.swapChildFragment(
+                SelectAuthFragment::class.java,
+                SelectAuthFragment.TAG
+            )
+            false
+        }
+        launchGameListener = ExtraListener<Boolean> { _: String?, _: Boolean? ->
+            if (binding.progressLayout.hasProcesses()) {
+                Toast.makeText(this, R.string.tasks_ongoing, Toast.LENGTH_LONG).show()
+                return@ExtraListener false
+            }
+            val selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(
+                LauncherPreferences.PREF_KEY_CURRENT_PROFILE,
+                ""
+            )
+            if (LauncherProfiles.mainProfileJson == null || !LauncherProfiles.mainProfileJson.profiles.containsKey(
+                    selectedProfile
+                )
+            ) {
+                Toast.makeText(this, R.string.error_no_version, Toast.LENGTH_LONG).show()
+                return@ExtraListener false
+            }
+            val prof = LauncherProfiles.mainProfileJson.profiles[selectedProfile]
+            if (prof?.lastVersionId == null || "Unknown" == prof.lastVersionId) {
+                Toast.makeText(this, R.string.error_no_version, Toast.LENGTH_LONG).show()
+                return@ExtraListener false
+            }
+
+            if (McAccountSpinner.getSelectedAccount() == null) {
+                Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show()
+                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                return@ExtraListener false
+            }
+            val normalizedVersionId =
+                AsyncMinecraftDownloader.normalizeVersionId(prof.lastVersionId)
+            val mcVersion =
+                AsyncMinecraftDownloader.getListedVersion(normalizedVersionId)
+            MinecraftDownloader().start(
+                this,
+                mcVersion,
+                normalizedVersionId,
+                ContextAwareDoneListener(this, normalizedVersionId)
+            )
+            false
+        }
+        createProfileListener = ExtraListener<Boolean> { _: String?, _: Boolean? ->
+            binding.navMain.selectedItemId = R.id.download
+            false
+        }
+        IconCacheJanitor.runJanitor()
+        launcher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isAllowed: Boolean? ->
+            if (!isAllowed!!) handleNoNotificationPermission()
+            else {
+                val runnable = runnable?.get()
+                runnable?.run()
+            }
+        }
+        checkNotificationPermission()
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        ProgressKeeper.addTaskCountListener { taskCount: Int ->
+            if (taskCount > 0) {
+                Tools.runOnUiThread { notificationManager.cancel(NotificationUtils.NOTIFICATION_ID_GAME_START) }
+            }
+        }
+        progressServiceKeeper = ProgressServiceKeeper(this)
+        ProgressKeeper.addTaskCountListener(progressServiceKeeper)
+        ProgressKeeper.addTaskCountListener(binding.progressLayout)
+        ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPreferenceListener)
+        ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, selectAuthListener)
+        ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, launchGameListener)
+        ExtraCore.addExtraListener(ExtraConstants.CREATE_NEW_PROFILE, createProfileListener)
+        AsyncVersionList().getVersionList({ versions: JMinecraftVersionList? ->
+            ExtraCore.setValue(
+                ExtraConstants.RELEASE_TABLE,
+                versions
+            )
+        }, false)
+        installTracker = ModloaderInstallTracker(this)
+        binding.progressLayout.observe(ProgressLayout.DOWNLOAD_MINECRAFT)
+        binding.progressLayout.observe(ProgressLayout.UNPACK_RUNTIME)
+        binding.progressLayout.observe(ProgressLayout.INSTALL_MODPACK)
+        binding.progressLayout.observe(ProgressLayout.AUTHENTICATE_MICROSOFT)
+        binding.progressLayout.observe(ProgressLayout.DOWNLOAD_VERSION_LIST)
     }
 
     private fun checkNotificationPermission() {
@@ -316,19 +319,19 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         Toast.makeText(this, R.string.notification_permission_toast, Toast.LENGTH_LONG).show()
     }
 
-    private fun checkForNotificationPermission(): Boolean {
+    fun checkForNotificationPermission(): Boolean {
         return Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.POST_NOTIFICATIONS
         ) != PackageManager.PERMISSION_DENIED
     }
 
-    private fun askForNotificationPermission(onSuccessRunnable: Runnable?) {
+    fun askForNotificationPermission(onSuccessRunnable: Runnable?) {
         if (Build.VERSION.SDK_INT < 33) return
         if (onSuccessRunnable != null) {
-            mRequestNotificationPermissionRunnable = WeakReference(onSuccessRunnable)
+            runnable = WeakReference(onSuccessRunnable)
         }
-        mRequestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
 }

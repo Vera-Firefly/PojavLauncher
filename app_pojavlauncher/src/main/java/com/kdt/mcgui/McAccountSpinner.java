@@ -248,7 +248,7 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         }
 
         // Pick what's available, might just be the the add account "button"
-        pickAccount(overridePosition == 0 ? -1 : overridePosition);
+        pickAccount(overridePosition);
         if (mSelectecAccount != null) {
             performLogin(mSelectecAccount);
             refreshUserIcon();
@@ -271,30 +271,17 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     /** Pick the selected account, the one in settings if 0 is passed */
     private void pickAccount(int position){
-        MinecraftAccount selectedAccount;
-        if(position != -1){
-            PojavProfile.setCurrentProfile(getContext(), mAccountList.get(position));
+        MinecraftAccount selectedAccount = null;
+        String name = mAccountList.get(position);
+        if (!name.equals(getContext().getString(R.string.main_add_account))) {
             selectedAccount = PojavProfile.getCurrentProfileContent(getContext(), mAccountList.get(position));
-
-
-            // WORKAROUND
-            // Account file corrupted due to previous versions having improper encoding
-            if (selectedAccount == null){
+            PojavProfile.setCurrentProfile(getContext(), mAccountList.get(position));
+            if (selectedAccount == null) {
                 removeCurrentAccount();
-                pickAccount(-1);
-                setSelection(0);
                 return;
             }
             setSelection(position);
-        }else {
-            // Get the current profile, or the first available profile if the wanted one is unavailable
-            selectedAccount = PojavProfile.getCurrentProfileContent(getContext(), null);
-            int spinnerPosition = selectedAccount == null
-                    ? 0
-                    : mAccountList.indexOf(selectedAccount.username);
-            setSelection(spinnerPosition, false);
         }
-
         mSelectecAccount = selectedAccount;
     }
 
