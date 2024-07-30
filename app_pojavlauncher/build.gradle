@@ -114,6 +114,7 @@ android {
 
     defaultConfig {
         applicationId "net.kdt.pojavlaunch"
+        applicationIdSuffix '.infinity'
         minSdkVersion 28
         targetSdkVersion 33
         versionCode getDateSeconds()
@@ -124,14 +125,13 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix '.debug'
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
-            resValue 'string', 'application_package', 'net.kdt.pojavlaunch.debug'
-            resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.debug'
-            resValue 'string', 'shareProviderAuthority', 'net.kdt.pojavlaunch.scoped.controlfolder.debug'
+            resValue 'string', 'application_package', 'net.kdt.pojavlaunch.infinity'
+            resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.infinity'
+            resValue 'string', 'shareProviderAuthority', 'net.kdt.pojavlaunch.scoped.controlfolder.infinity'
         }
         proguard {
             initWith debug
