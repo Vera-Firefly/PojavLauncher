@@ -71,32 +71,35 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     private fun initUI() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_main)
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .addToBackStack("ROOT")
-            .replace(
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            addToBackStack("ROOT")
+            replace(
                 R.id.container_fragment,
                 HomeFragment::class.java,
                 null,
                 HomeFragment.TAG
             )
-            .commit()
+            commit()
+        }
         setSupportActionBar(binding.toolbar)
         binding.navMain.setOnItemSelectedListener {
-            val id = it.itemId
             val fragment = supportFragmentManager.findFragmentById(binding.containerFragment.id)
-            if (id == R.id.home) {
-                if (fragment !is HomeFragment) {
-                    swapFragment(HomeFragment::class.java, HomeFragment.TAG)
-                }
-            } else if (id == R.id.download) {
-                if (fragment !is DownloadFragment) {
-                    swapFragment(DownloadFragment::class.java, DownloadFragment.TAG)
-                }
-            } else if (id == R.id.setting) {
-                if (fragment !is LauncherPreferenceFragment) {
-                    swapFragment(LauncherPreferenceFragment::class.java, "SETTINGS_FRAGMENT")
-                }
+            when (it.itemId) {
+                R.id.home -> if (fragment !is HomeFragment) swapFragment(
+                    HomeFragment::class.java,
+                    HomeFragment.TAG
+                )
+
+                R.id.download -> if (fragment !is DownloadFragment) swapFragment(
+                    DownloadFragment::class.java,
+                    DownloadFragment.TAG
+                )
+
+                R.id.setting -> if (fragment !is LauncherPreferenceFragment) swapFragment(
+                    LauncherPreferenceFragment::class.java,
+                    "SETTINGS_FRAGMENT"
+                )
             }
             return@setOnItemSelectedListener true;
         }
@@ -123,15 +126,16 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     }
 
     private fun swapFragment(clazz: Class<out Fragment>, tag: String) {
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .replace(
+        supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            replace(
                 R.id.container_fragment,
                 clazz,
                 null,
                 tag
             )
-            .commit()
+            commit()
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -266,10 +270,10 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, selectAuthListener)
         ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, launchGameListener)
         ExtraCore.addExtraListener(ExtraConstants.CREATE_NEW_PROFILE, createProfileListener)
-        AsyncVersionList().getVersionList({ versions: JMinecraftVersionList? ->
+        AsyncVersionList().getVersionList({
             ExtraCore.setValue(
                 ExtraConstants.RELEASE_TABLE,
-                versions
+                it
             )
         }, false)
         installTracker = ModloaderInstallTracker(this)
@@ -299,16 +303,17 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     }
 
     private fun showNotificationPermissionReasoning() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.notification_permission_dialog_title)
-            .setMessage(R.string.notification_permission_dialog_text)
-            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
+        AlertDialog.Builder(this).apply {
+            setTitle(R.string.notification_permission_dialog_title)
+            setMessage(R.string.notification_permission_dialog_text)
+            setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 askForNotificationPermission(
                     null
                 )
             }
-            .setNegativeButton(android.R.string.cancel) { _: DialogInterface?, _: Int -> handleNoNotificationPermission() }
-            .show()
+            setNegativeButton(android.R.string.cancel) { _: DialogInterface?, _: Int -> handleNoNotificationPermission() }
+            show()
+        }
     }
 
     private fun handleNoNotificationPermission() {
