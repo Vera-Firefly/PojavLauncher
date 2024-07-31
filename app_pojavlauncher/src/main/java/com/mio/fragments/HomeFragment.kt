@@ -41,24 +41,24 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         childID = R.id.container_fragment_home
-        binding.userIcon.setOnClickListener(this)
-        binding.gameSetting.setOnClickListener(this)
-        binding.pathSetting.setOnClickListener(this)
-        binding.edit.setOnClickListener(this)
-        binding.add.setOnClickListener(this)
-        binding.delete.setOnClickListener(this)
-
-        binding.mcVersionSpinner.profileAdapter.setOnClick {
-            binding.mcVersionSpinner.setProfileSelection(it)
-            binding.mcVersionSpinner.hidePopup(true)
-            binding.mcVersionSpinner.openProfileEditor(this)
+        binding.apply {
+            userIcon.setOnClickListener(this@HomeFragment)
+            gameSetting.setOnClickListener(this@HomeFragment)
+            pathSetting.setOnClickListener(this@HomeFragment)
+            edit.setOnClickListener(this@HomeFragment)
+            add.setOnClickListener(this@HomeFragment)
+            delete.setOnClickListener(this@HomeFragment)
+            mcVersionSpinner.profileAdapter.setOnClick {
+                mcVersionSpinner.setProfileSelection(it)
+                mcVersionSpinner.hidePopup(true)
+                mcVersionSpinner.openProfileEditor(this@HomeFragment)
+            }
+            accountSpinner.setUserIcon(userIcon)
+            accountSpinner.post {
+                accountSpinner.refreshUserIcon()
+            }
         }
-
-        binding.accountSpinner.setUserIcon(binding.userIcon)
         startAnimation()
-        binding.accountSpinner.post {
-            binding.accountSpinner.refreshUserIcon()
-        }
     }
 
     override fun onResume() {
@@ -67,25 +67,27 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when (v) {
-            binding.userIcon -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-            binding.gameSetting -> binding.mcVersionSpinner.openProfileEditor(this)
-//            binding.pathSetting->
-            binding.edit -> openAuthMenu()
-            binding.add -> {
-                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
-                closeAuthMenu()
-            }
+        binding.apply {
+            when (v) {
+                userIcon -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                gameSetting -> binding.mcVersionSpinner.openProfileEditor(this@HomeFragment)
+//              pathSetting->
+                edit -> openAuthMenu()
+                add -> {
+                    ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                    closeAuthMenu()
+                }
 
-            binding.delete -> {
-                AlertDialog.Builder(requireActivity())
-                    .setMessage(R.string.warning_remove_account)
-                    .setPositiveButton(android.R.string.cancel, null)
-                    .setNegativeButton(R.string.global_delete) { _, _ ->
-                        binding.accountSpinner.removeCurrentAccount()
-                    }
-                    .show()
-                closeAuthMenu()
+                delete -> {
+                    AlertDialog.Builder(requireActivity())
+                        .setMessage(R.string.warning_remove_account)
+                        .setPositiveButton(android.R.string.cancel, null)
+                        .setNegativeButton(R.string.global_delete) { _, _ ->
+                            binding.accountSpinner.removeCurrentAccount()
+                        }
+                        .show()
+                    closeAuthMenu()
+                }
             }
         }
     }

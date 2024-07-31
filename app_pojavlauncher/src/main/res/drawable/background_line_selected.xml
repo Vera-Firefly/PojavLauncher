@@ -9,7 +9,7 @@
 
             <stroke
                 android:width="@dimen/_2sdp"
-                android:color="@color/theme_color_2"/>
+                android:color="?attr/themeColorSecondary"/>
         </shape>
     </item>
 </layer-list>

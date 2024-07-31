@@ -105,7 +105,7 @@
         app:layout_constraintStart_toStartOf="@+id/fabric_installer_only_stable_checkbox" />
     <CheckBox
         android:id="@+id/fabric_installer_only_stable_checkbox"
-        android:buttonTint="@color/theme_color_2"
+        android:buttonTint="?attr/themeColorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/fabric_dl_only_stable"

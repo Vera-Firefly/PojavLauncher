@@ -24,6 +24,7 @@ import com.kdt.mcgui.ProgressLayout
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
+import com.mio.fragments.SettingFragment
 import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
@@ -96,9 +97,9 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
                     DownloadFragment.TAG
                 )
 
-                R.id.setting -> if (fragment !is LauncherPreferenceFragment) swapFragment(
-                    LauncherPreferenceFragment::class.java,
-                    "SETTINGS_FRAGMENT"
+                R.id.setting -> if (fragment !is SettingFragment) swapFragment(
+                    SettingFragment::class.java,
+                    SettingFragment.TAG
                 )
             }
             return@setOnItemSelectedListener true;
