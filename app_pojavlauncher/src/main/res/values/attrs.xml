@@ -2,4 +2,6 @@
 <resources>
     <attr name="themeColorPrimary" format="reference|color" />
     <attr name="themeColorSecondary" format="reference|color" />
+    <attr name="themeColorPrimaryLight" format="reference|color" />
+    <attr name="themeColorSecondaryLight" format="reference|color" />
 </resources>

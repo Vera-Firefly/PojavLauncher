@@ -3,7 +3,6 @@ package net.kdt.pojavlaunch.prefs;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.SeekBar;
@@ -58,7 +57,7 @@ public class CustomSeekBarPreference extends SeekBarPreference {
     public void onBindViewHolder(@NonNull PreferenceViewHolder view) {
         super.onBindViewHolder(view);
         TypedArray typedArray = getContext().obtainStyledAttributes(new int[]{R.attr.themeColorPrimary});
-        int themeColorPrimary = typedArray.getColor(0, getContext().getColor(R.color.theme_color));
+        int themeColorPrimary = typedArray.getColor(0, getContext().getColor(R.color.theme_color_primary));
         typedArray.recycle();
         TextView titleTextView = (TextView) view.findViewById(android.R.id.title);
         titleTextView.setTextColor(themeColorPrimary);

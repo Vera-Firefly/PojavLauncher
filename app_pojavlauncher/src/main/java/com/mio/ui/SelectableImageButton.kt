@@ -31,8 +31,8 @@ class SelectableImageButton @JvmOverloads constructor(
 
     fun refreshTintColor() {
         drawable.setTint(
-            if (isSelected) context.getColor(R.color.theme_color_2) else
-                context.getColor(R.color.theme_color)
+            if (isSelected) context.getColor(R.color.theme_color_secondary) else
+                context.getColor(R.color.theme_color_primary)
         )
     }
 }
