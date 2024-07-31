@@ -30,6 +30,7 @@ import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.JMinecraftVersionList
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
+import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension
 import net.kdt.pojavlaunch.databinding.ActivityNewMainBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
@@ -53,7 +54,7 @@ import kotlin.system.exitProcess
 
 class NewLauncherActivity : BaseActivity(), OnClickListener {
     private lateinit var binding: ActivityNewMainBinding
-    lateinit var modInstaller: ActivityResultLauncher<String>
+    lateinit var modInstaller: ActivityResultLauncher<Any>
     private var runnable: WeakReference<Runnable>? = null
     private lateinit var notificationManager: NotificationManager
     private lateinit var progressServiceKeeper: ProgressServiceKeeper
@@ -239,14 +240,8 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             false
         }
         IconCacheJanitor.runJanitor()
-        modInstaller = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isAllowed: Boolean? ->
-            if (!isAllowed!!) handleNoNotificationPermission()
-            else {
-                val runnable = runnable?.get()
-                runnable?.run()
-            }
+        modInstaller = registerForActivityResult(OpenDocumentWithExtension(".jar")) { data ->
+            if(data != null) Tools.launchModInstaller(this, data);
         }
         checkNotificationPermission()
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

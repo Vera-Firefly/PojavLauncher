@@ -4,9 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -16,14 +13,11 @@ import android.view.View.OnClickListener
 import android.view.View.VISIBLE
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.BounceInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McAccountSpinner
 import com.mio.utils.AnimUtil
-import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants

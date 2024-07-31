@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.animation.BounceInterpolator
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.R
+import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentDownloadBinding
 import net.kdt.pojavlaunch.fragments.SearchModFragment
+import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper
 
 class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickListener {
     companion object {
@@ -22,9 +25,16 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDownloadBinding.bind(view)
         childID = R.id.container_fragment_download
-        binding.gameDownload.setOnClickListener(this)
-        binding.modDownload.setOnClickListener(this)
-        binding.modpackDownload.setOnClickListener(this)
+        binding.apply {
+            gameDownload.setOnClickListener(this@DownloadFragment)
+            modDownload.setOnClickListener(this@DownloadFragment)
+            modpackDownload.setOnClickListener(this@DownloadFragment)
+            installJar.setOnClickListener(this@DownloadFragment)
+            installJar.setOnLongClickListener {
+                runInstallerWithConfirmation(true)
+                true
+            }
+        }
 
         swapChildFragment(
             GameDownloadFragment::class.java,
@@ -34,23 +44,28 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
     }
 
     override fun onClick(v: View?) {
-        when (v) {
-            binding.gameDownload -> {
-                swapChildFragment(
-                    GameDownloadFragment::class.java,
-                    GameDownloadFragment.TAG
-                )
-            }
+        binding.apply {
+            when (v) {
+                gameDownload -> {
+                    swapChildFragment(
+                        GameDownloadFragment::class.java,
+                        GameDownloadFragment.TAG
+                    )
+                }
 
-            binding.modDownload -> {
+                modDownload -> {
 
-            }
+                }
 
-            binding.modpackDownload -> {
-                swapChildFragment(
-                    SearchModFragment::class.java,
-                    SearchModFragment.TAG
-                )
+                modpackDownload -> {
+                    swapChildFragment(
+                        SearchModFragment::class.java,
+                        SearchModFragment.TAG
+                    )
+                }
+
+                installJar -> runInstallerWithConfirmation(false)
+
             }
         }
     }
@@ -63,6 +78,11 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
         AnimUtil.playTranslationX(binding.containerFragmentDownload,500,null,500f,0f).start()
         AnimUtil.playScaleX(binding.containerFragmentDownload,1000,BounceInterpolator(),0f,1f,0.5f,1f).start()
         AnimUtil.playScaleY(binding.containerFragmentDownload,1000,BounceInterpolator(),0f,1f,0.5f,1f).start()
+    }
+
+    private fun runInstallerWithConfirmation(isCustomArgs: Boolean) {
+        if (ProgressKeeper.getTaskCount() == 0) Tools.installMod(requireActivity(), isCustomArgs)
+        else Toast.makeText(requireContext(), R.string.tasks_ongoing, Toast.LENGTH_LONG).show()
     }
 
     override fun onAttach(context: Context) {
