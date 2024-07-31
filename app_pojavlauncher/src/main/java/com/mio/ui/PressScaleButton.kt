@@ -10,10 +10,10 @@ import net.kdt.pojavlaunch.R
 class PressScaleButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : AppCompatButton(context, attrs, android.R.attr.buttonStyle) {
+    defStyleAttr: Int = android.R.attr.buttonStyle
+) : AppCompatButton(context, attrs, defStyleAttr) {
     init {
-        background = ResourcesCompat.getDrawable(resources, R.drawable.background_button, null)
+        background = ResourcesCompat.getDrawable(resources, R.drawable.background_button, context.theme)
         stateListAnimator = AnimatorInflater.loadStateListAnimator(context, R.xml.animate_scale)
     }
 }
