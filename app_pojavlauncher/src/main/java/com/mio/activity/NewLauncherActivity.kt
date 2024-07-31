@@ -56,6 +56,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     private lateinit var binding: ActivityNewMainBinding
     lateinit var modInstaller: ActivityResultLauncher<Any>
     private var runnable: WeakReference<Runnable>? = null
+    private lateinit var notificationPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var notificationManager: NotificationManager
     private lateinit var progressServiceKeeper: ProgressServiceKeeper
     private lateinit var installTracker: ModloaderInstallTracker
@@ -240,6 +241,15 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             false
         }
         IconCacheJanitor.runJanitor()
+        notificationPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isAllowed: Boolean? ->
+            if (!isAllowed!!) handleNoNotificationPermission()
+            else {
+                val runnable = runnable?.get()
+                runnable?.run()
+            }
+        }
         modInstaller = registerForActivityResult(OpenDocumentWithExtension(".jar")) { data ->
             if(data != null) Tools.launchModInstaller(this, data);
         }
@@ -322,7 +332,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         if (onSuccessRunnable != null) {
             runnable = WeakReference(onSuccessRunnable)
         }
-        modInstaller.launch(Manifest.permission.POST_NOTIFICATIONS)
+        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
 }
