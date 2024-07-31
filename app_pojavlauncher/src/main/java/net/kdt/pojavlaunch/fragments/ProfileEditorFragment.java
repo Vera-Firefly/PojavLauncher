@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.kdt.mcgui.McVersionSpinner;
+import com.mio.fragments.HomeFragment;
+
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
@@ -93,6 +96,12 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         mSaveButton.setOnClickListener(v -> {
             ProfileIconCache.dropIcon(mProfileKey);
             save();
+            if (getParentFragment() instanceof HomeFragment) {
+                HomeFragment fragment = (HomeFragment) getParentFragment();
+                McVersionSpinner versionSpinner = fragment.getBinding().mcVersionSpinner;
+                versionSpinner.getProfileAdapter().notifyDataSetChanged();
+                versionSpinner.setSelection(versionSpinner.mSelectedIndex);
+            }
             getParentFragmentManager().popBackStack();
         });
 
@@ -102,6 +111,12 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
                 LauncherProfiles.mainProfileJson.profiles.remove(mProfileKey);
                 LauncherProfiles.write();
                 ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, DELETED_PROFILE);
+                if (getParentFragment() instanceof HomeFragment) {
+                    HomeFragment fragment = (HomeFragment) getParentFragment();
+                    McVersionSpinner versionSpinner = fragment.getBinding().mcVersionSpinner;
+                    versionSpinner.getProfileAdapter().notifyDataSetChanged();
+                    versionSpinner.setSelection(versionSpinner.mSelectedIndex - 1);
+                }
             }
 
             getParentFragmentManager().popBackStack();

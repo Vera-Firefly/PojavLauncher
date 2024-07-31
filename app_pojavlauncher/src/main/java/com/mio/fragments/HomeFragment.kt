@@ -28,13 +28,14 @@ import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
+import net.kdt.pojavlaunch.profiles.ProfileAdapter.Callback
 
 class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
     companion object {
         const val TAG = "HomeFragment"
     }
 
-    private lateinit var binding: FragmentHomeBinding
+    public lateinit var binding: FragmentHomeBinding
     private val runnable = Runnable { closeAuthMenu() };
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,11 +49,17 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
             edit.setOnClickListener(this@HomeFragment)
             add.setOnClickListener(this@HomeFragment)
             delete.setOnClickListener(this@HomeFragment)
-            mcVersionSpinner.profileAdapter.setOnClick {
-                mcVersionSpinner.setProfileSelection(it)
-                mcVersionSpinner.hidePopup(true)
-                mcVersionSpinner.openProfileEditor(this@HomeFragment)
-            }
+            mcVersionSpinner.profileAdapter.setCallback(object : Callback {
+                override fun onEdit(position: Int) {
+                    mcVersionSpinner.setProfileSelection(position)
+                    mcVersionSpinner.hidePopup(true)
+                    mcVersionSpinner.openProfileEditor(this@HomeFragment)
+                }
+
+                override fun onDelete(position: Int) {
+                    mcVersionSpinner.setSelection(position - 1)
+                }
+            })
             accountSpinner.setUserIcon(userIcon)
             accountSpinner.post {
                 accountSpinner.refreshUserIcon()

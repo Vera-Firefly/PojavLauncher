@@ -60,7 +60,7 @@ public class McVersionSpinner extends ExtendedTextView {
     private ListView mListView = null;
     private PopupWindow mPopupWindow = null;
     private Object mPopupAnimation;
-    private int mSelectedIndex;
+    public int mSelectedIndex;
 
     private final ProfileAdapter mProfileAdapter = new ProfileAdapter(new ProfileAdapterExtra[]{
             new ProfileAdapterExtra(VERSION_SPINNER_PROFILE_CREATE,

@@ -36,7 +36,7 @@ public class ProfileAdapter extends BaseAdapter {
     private final MinecraftProfile dummy = new MinecraftProfile();
     private List<String> mProfileList;
     private ProfileAdapterExtra[] mExtraEntires;
-    private OnClick onClick;
+    private Callback callback;
     private ListView listView;
 
     public ProfileAdapter(ProfileAdapterExtra[] extraEntries) {
@@ -108,7 +108,7 @@ public class ProfileAdapter extends BaseAdapter {
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
-        holder.edit.setOnClickListener(v -> onClick.onClick(position));
+        holder.edit.setOnClickListener(v -> callback.onEdit(position));
         holder.delete.setOnClickListener(v -> {
             if (LauncherProfiles.mainProfileJson.profiles.size() > 1) {
                 String key = getItem(position).toString();
@@ -116,6 +116,8 @@ public class ProfileAdapter extends BaseAdapter {
                 LauncherProfiles.mainProfileJson.profiles.remove(key);
                 LauncherProfiles.write();
                 ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, ProfileEditorFragment.DELETED_PROFILE);
+                notifyDataSetChanged();
+                callback.onDelete(position);
             }
         });
         return convertView;
@@ -182,16 +184,17 @@ public class ProfileAdapter extends BaseAdapter {
         this.reloadProfiles();
     }
 
-    public void setOnClick(OnClick onClick) {
-        this.onClick = onClick;
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     public void setListView(ListView listView) {
         this.listView = listView;
     }
 
-    public interface OnClick {
-        void onClick(int position);
+    public interface Callback {
+        void onEdit(int position);
+        void onDelete(int position);
     }
 
     private class ViewHolder {
