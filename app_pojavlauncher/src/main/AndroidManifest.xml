@@ -53,9 +53,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LauncherActivity"
-            android:label="@string/app_short_name" />
-        <activity
             android:screenOrientation="sensorLandscape"
             android:name="com.mio.activity.NewLauncherActivity"
             android:label="@string/app_short_name" />

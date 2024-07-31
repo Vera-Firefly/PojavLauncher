@@ -53,7 +53,7 @@ import kotlin.system.exitProcess
 
 class NewLauncherActivity : BaseActivity(), OnClickListener {
     private lateinit var binding: ActivityNewMainBinding
-    private lateinit var launcher: ActivityResultLauncher<String>
+    lateinit var modInstaller: ActivityResultLauncher<String>
     private var runnable: WeakReference<Runnable>? = null
     private lateinit var notificationManager: NotificationManager
     private lateinit var progressServiceKeeper: ProgressServiceKeeper
@@ -239,7 +239,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             false
         }
         IconCacheJanitor.runJanitor()
-        launcher = registerForActivityResult(
+        modInstaller = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isAllowed: Boolean? ->
             if (!isAllowed!!) handleNoNotificationPermission()
@@ -327,7 +327,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         if (onSuccessRunnable != null) {
             runnable = WeakReference(onSuccessRunnable)
         }
-        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        modInstaller.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
 }

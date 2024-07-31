@@ -46,6 +46,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mio.activity.NewLauncherActivity;
 
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor;
 import net.kdt.pojavlaunch.lifecycle.ContextExecutorTask;
@@ -999,10 +1000,10 @@ public final class Tools {
         }
 
         if(!customJavaArgs){ // Launch the intent to get the jar file
-            if(!(activity instanceof LauncherActivity))
+            if(!(activity instanceof NewLauncherActivity))
                 throw new IllegalStateException("Cannot start Mod Installer without LauncherActivity");
-            LauncherActivity launcherActivity = (LauncherActivity)activity;
-            launcherActivity.modInstallerLauncher.launch(null);
+            NewLauncherActivity launcherActivity = (NewLauncherActivity)activity;
+            launcherActivity.modInstaller.launch(null);
             return;
         }
 

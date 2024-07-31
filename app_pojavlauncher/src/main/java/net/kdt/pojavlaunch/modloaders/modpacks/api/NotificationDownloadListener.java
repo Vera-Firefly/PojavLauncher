@@ -3,7 +3,8 @@ package net.kdt.pojavlaunch.modloaders.modpacks.api;
 import android.content.Context;
 import android.content.Intent;
 
-import net.kdt.pojavlaunch.LauncherActivity;
+import com.mio.activity.NewLauncherActivity;
+
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.modloaders.ModloaderDownloadListener;
@@ -25,7 +26,7 @@ public class NotificationDownloadListener implements ModloaderDownloadListener {
     public void onDownloadFinished(File downloadedFile) {
         if(mModLoader.requiresGuiInstallation()) {
             ModloaderInstallTracker.saveModLoader(mContext, mModLoader, downloadedFile);
-            Intent mainActivityIntent = new Intent(mContext, LauncherActivity.class);
+            Intent mainActivityIntent = new Intent(mContext, NewLauncherActivity.class);
             sendIntentNotification(mainActivityIntent, R.string.modpack_install_notification_success);
         }
     }
