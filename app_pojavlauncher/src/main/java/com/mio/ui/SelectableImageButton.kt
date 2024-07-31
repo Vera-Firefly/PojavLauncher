@@ -3,7 +3,6 @@ package com.mio.ui
 import android.animation.AnimatorInflater
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatImageButton
 import net.kdt.pojavlaunch.R
 
@@ -13,24 +12,24 @@ class SelectableImageButton @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
     interface OnSelectListener {
-        fun onSelected(v: View)
+        fun onSelected(v: SelectableImageButton)
     }
 
-    private var onSelectListener: OnSelectListener? = null
-    private var isSelected = false
+    var onSelectListener: OnSelectListener? = null
 
     init {
         stateListAnimator =
             AnimatorInflater.loadStateListAnimator(context, R.xml.animate_scale_large)
         setOnClickListener() {
             if (!isSelected) {
+                isSelected = true
+                onSelectListener?.onSelected(it as SelectableImageButton)
                 refreshTintColor()
-                onSelectListener?.onSelected(it)
             }
         }
     }
 
-    private fun refreshTintColor() {
+    fun refreshTintColor() {
         drawable.setTint(
             if (isSelected) context.getColor(R.color.theme_color_2) else
                 context.getColor(R.color.theme_color)

@@ -2,28 +2,93 @@
 <layout>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center|top"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:background="@color/theme_background"
-            app:layout_constraintWidth_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.mio.ui.SelectableImageButton
-                android:layout_marginTop="@dimen/_20sdp"
-                android:src="@drawable/ic_video"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"/>
+            <LinearLayout
+                android:id="@+id/nav"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:padding="@dimen/_5sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center|top">
 
-        </LinearLayout>
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/video"
+                    android:src="@drawable/ic_video"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/control"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_gamepad"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/java"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_java"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/launcher"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_menu_home"
+                    android:tint="?attr/themeColorPrimary"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/other"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_other"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+                <com.mio.ui.SelectableImageButton
+                    android:id="@+id/test"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:src="@drawable/ic_lab"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_fragment_setting"
+            android:layout_margin="@dimen/_20sdp"
+            app:layout_constraintStart_toEndOf="@id/scroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

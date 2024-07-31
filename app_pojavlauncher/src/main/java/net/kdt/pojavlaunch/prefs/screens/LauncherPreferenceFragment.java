@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -25,13 +26,12 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view.setBackgroundColor(getResources().getColor(R.color.theme_background));
+        view.setBackgroundResource(R.drawable.background_button_normal);
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onCreatePreferences(Bundle b, String str) {
-        addPreferencesFromResource(R.xml.pref_main);
         setupNotificationRequestPreference();
     }
 

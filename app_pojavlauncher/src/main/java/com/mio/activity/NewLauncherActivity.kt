@@ -58,7 +58,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     private lateinit var notificationManager: NotificationManager
     private lateinit var progressServiceKeeper: ProgressServiceKeeper
     private lateinit var installTracker: ModloaderInstallTracker
-    private lateinit var mBackPreferenceListener: ExtraListener<String>
     private lateinit var selectAuthListener: ExtraListener<Boolean>
     private lateinit var launchGameListener: ExtraListener<Boolean>
     private lateinit var createProfileListener: ExtraListener<Boolean>
@@ -175,10 +174,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         ProgressKeeper.removeTaskCountListener(binding.progressLayout)
         ProgressKeeper.removeTaskCountListener(progressServiceKeeper)
         ExtraCore.removeExtraListenerFromValue(
-            ExtraConstants.BACK_PREFERENCE,
-            mBackPreferenceListener
-        )
-        ExtraCore.removeExtraListenerFromValue(
             ExtraConstants.SELECT_AUTH_METHOD,
             selectAuthListener
         )
@@ -190,10 +185,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     }
 
     private fun initPojav() {
-        mBackPreferenceListener = ExtraListener { _: String?, value: String ->
-            if (value == "true") onBackPressed()
-            false
-        }
         selectAuthListener = ExtraListener<Boolean> { _: String?, _: Boolean? ->
             val fragment =
                 supportFragmentManager.findFragmentById(binding.containerFragment.id) as? HomeFragment
@@ -267,7 +258,6 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         progressServiceKeeper = ProgressServiceKeeper(this)
         ProgressKeeper.addTaskCountListener(progressServiceKeeper)
         ProgressKeeper.addTaskCountListener(binding.progressLayout)
-        ExtraCore.addExtraListener(ExtraConstants.BACK_PREFERENCE, mBackPreferenceListener)
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, selectAuthListener)
         ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, launchGameListener)
         ExtraCore.addExtraListener(ExtraConstants.CREATE_NEW_PROFILE, createProfileListener)

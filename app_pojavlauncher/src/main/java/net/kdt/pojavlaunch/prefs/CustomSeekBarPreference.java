@@ -57,13 +57,15 @@ public class CustomSeekBarPreference extends SeekBarPreference {
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder view) {
         super.onBindViewHolder(view);
+        TypedArray typedArray = getContext().obtainStyledAttributes(new int[]{R.attr.themeColorPrimary});
+        int themeColorPrimary = typedArray.getColor(0, getContext().getColor(R.color.theme_color));
+        typedArray.recycle();
         TextView titleTextView = (TextView) view.findViewById(android.R.id.title);
-        titleTextView.setTextColor(Color.WHITE);
+        titleTextView.setTextColor(themeColorPrimary);
 
         mTextView = (TextView) view.findViewById(R.id.seekbar_value);
         mTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
