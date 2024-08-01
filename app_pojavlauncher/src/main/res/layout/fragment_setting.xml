@@ -20,6 +20,7 @@
 
             <LinearLayout
                 android:id="@+id/nav"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:padding="@dimen/_5sdp"

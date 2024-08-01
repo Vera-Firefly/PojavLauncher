@@ -334,4 +334,8 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
         notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
+    override fun onPostResume() {
+        super.onPostResume()
+        Tools.ignoreNotch(true, this);
+    }
 }
