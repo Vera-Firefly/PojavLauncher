@@ -343,4 +343,6 @@
     <string name="login_select">请选择登录方式</string>
     <string name="menu_add_account">添加账号</string>
     <string name="menu_remove_account">删除当前账号</string>
+    <string name="custom_path">自定义路径</string>
+    <string name="isolate_game">版本隔离</string>
 </resources>

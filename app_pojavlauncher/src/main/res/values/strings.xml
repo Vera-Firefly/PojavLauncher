@@ -399,4 +399,6 @@
     <string name="menu_remove_account">Remove current account</string>
     <string name="execute_jar_failed_to_read_file">Failed to read the .jar file</string>
     <string name="execute_jar_incompatible_runtime">Execute .jar feature is not compatible with Java %d</string>
+    <string name="custom_path">Custom path</string>
+    <string name="isolate_game">Isolate game</string>
 </resources>

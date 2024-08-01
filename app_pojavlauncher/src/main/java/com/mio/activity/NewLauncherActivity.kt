@@ -47,7 +47,9 @@ import net.kdt.pojavlaunch.tasks.AsyncVersionList
 import net.kdt.pojavlaunch.tasks.MinecraftDownloader
 import net.kdt.pojavlaunch.utils.NotificationUtils
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles
+import java.io.File
 import java.lang.ref.WeakReference
+import java.util.Locale
 import kotlin.system.exitProcess
 
 class NewLauncherActivity : BaseActivity(), OnClickListener {
@@ -227,6 +229,24 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
                 AsyncMinecraftDownloader.normalizeVersionId(prof.lastVersionId)
             val mcVersion =
                 AsyncMinecraftDownloader.getListedVersion(normalizedVersionId)
+            try {
+                val path =
+                    Tools.getGameDirPath(LauncherProfiles.getCurrentProfile()).absolutePath
+                File(path, "options.txt").apply {
+                    if (!exists()) {
+                        Tools.copyAssetFile(this@NewLauncherActivity, "options.txt", path, false)
+                        val lang = Locale.getDefault().language
+                        if (lang.equals(Locale.CHINESE.language)) {
+                            val read = Tools.read(this).replace(
+                                "en_US",
+                                if (mcVersion.minimumLauncherVersion > 18) "zh_cn" else "zh_CN"
+                            )
+                            Tools.write(absolutePath, read)
+                        }
+                    }
+                }
+            } catch (ignore: Throwable) {
+            }
             MinecraftDownloader().start(
                 this,
                 mcVersion,
@@ -250,7 +270,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             }
         }
         modInstaller = registerForActivityResult(OpenDocumentWithExtension(".jar")) { data ->
-            if(data != null) Tools.launchModInstaller(this, data);
+            if (data != null) Tools.launchModInstaller(this, data);
         }
         checkNotificationPermission()
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

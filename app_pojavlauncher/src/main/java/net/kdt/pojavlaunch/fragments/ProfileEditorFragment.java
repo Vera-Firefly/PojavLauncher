@@ -1,9 +1,12 @@
 package net.kdt.pojavlaunch.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Base64OutputStream;
 import android.util.Log;
@@ -53,7 +56,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
-    private Button mSaveButton, mDeleteButton,mCancelButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
+    private Button mSaveButton, mDeleteButton,mCancelButton, mControlSelectButton, mGameDirButton, mVersionSelectButton, isolateButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
     private TextView mDefaultPath, mDefaultVersion, mDefaultControl;
@@ -81,6 +84,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         bindViews(view);
@@ -167,6 +171,9 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
 
 
         loadValues(LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, ""), view.getContext());
+        isolateButton.setOnClickListener(v -> {
+            mDefaultPath.setText("./.minecraft/game/" + mDefaultName.getText());
+        });
     }
 
 
@@ -236,6 +243,8 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         mVersionSelectButton = view.findViewById(R.id.vprof_editor_version_button);
         mGameDirButton = view.findViewById(R.id.vprof_editor_path_button);
         mProfileIcon = view.findViewById(R.id.vprof_editor_profile_icon);
+
+        isolateButton = view.findViewById(R.id.vprof_editor_isolate);
     }
 
     private void save(){
