@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#B2B2B2</color>
+
+    <color name="theme_color_primary">#6A8872</color>
+    <color name="theme_color_primary_light">#A1A8A3</color>
+    <color name="theme_color_secondary">#E6755F</color>
+    <color name="theme_color_secondary_light">#F1D9D5</color>
+    <color name="theme_background">#2E2E2E</color>
+</resources>

@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.mio.ui.EditText
             android:id="@+id/editName_editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@id/editName_editText"
             tools:visibility="visible" />
 
-        <EditText
+        <com.mio.ui.EditText
             android:id="@+id/editSize_editTextX"
             android:layout_width="@dimen/_134sdp"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editSize_textView" />
 
-        <EditText
+        <com.mio.ui.EditText
             android:id="@+id/editSize_editTextY"
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -28,7 +28,7 @@
 
         >
         <!-- Search text -->
-        <EditText
+        <com.mio.ui.EditText
             android:id="@+id/search_mod_edittext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

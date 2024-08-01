@@ -11,6 +11,7 @@
 
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:textColor">@color/theme_color_primary</item>
+        <item name="android:textColorHint">@color/theme_color_secondary</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
         
@@ -21,11 +22,10 @@
 
     </style>
 
-
     <style name="ThickDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/_1sdp</item>
-        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:background">?attr/themeColorPrimary</item>
     </style>
 
     <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">

@@ -27,7 +27,6 @@ import com.mio.fragments.SelectAuthFragment
 import com.mio.fragments.SettingFragment
 import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.BaseActivity
-import net.kdt.pojavlaunch.JMinecraftVersionList
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension
@@ -41,7 +40,6 @@ import net.kdt.pojavlaunch.lifecycle.ContextExecutor
 import net.kdt.pojavlaunch.modloaders.modpacks.ModloaderInstallTracker
 import net.kdt.pojavlaunch.modloaders.modpacks.imagecache.IconCacheJanitor
 import net.kdt.pojavlaunch.prefs.LauncherPreferences
-import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper
 import net.kdt.pojavlaunch.services.ProgressServiceKeeper
 import net.kdt.pojavlaunch.tasks.AsyncMinecraftDownloader
@@ -85,6 +83,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
             commit()
         }
         setSupportActionBar(binding.toolbar)
+        binding.navMain.selectedItemId = R.id.home
         binding.navMain.setOnItemSelectedListener {
             val fragment = supportFragmentManager.findFragmentById(binding.containerFragment.id)
             when (it.itemId) {

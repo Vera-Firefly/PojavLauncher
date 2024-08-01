@@ -49,14 +49,13 @@
                 app:layout_constraintBottom_toTopOf="@+id/vprof_editor_profile_name"
                 app:layout_constraintStart_toStartOf="@+id/vprof_editor_profile_name" />
 
-            <EditText
+            <com.mio.ui.EditText
                 android:id="@+id/vprof_editor_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
                 android:background="@drawable/background_line"
                 android:ems="10"
-
                 android:hint="@string/unnamed"
                 android:inputType="textPersonName"
                 android:paddingHorizontal="@dimen/padding_heavy"
@@ -147,7 +146,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/vprof_editor_jre_args"
                 app:layout_constraintStart_toStartOf="@+id/vprof_editor_jre_args" />
 
-            <EditText
+            <com.mio.ui.EditText
                 android:id="@+id/vprof_editor_jre_args"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
