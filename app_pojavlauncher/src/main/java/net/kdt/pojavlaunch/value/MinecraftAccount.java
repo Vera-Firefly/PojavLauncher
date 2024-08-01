@@ -31,10 +31,13 @@ public class MinecraftAccount {
     public String skinFaceBase64;
     private Bitmap mFaceCache;
     
-    void updateSkinFace(String uuid) {
+    public void updateSkinFace(String uuid) {
         try {
             File skinFile = getSkinFaceFile(username);
-            Tools.downloadFile("https://mc-heads.net/head/" + uuid + "/100", skinFile.getAbsolutePath());
+            if (skinFile.exists()) {
+                skinFile.delete();
+            }
+            Tools.downloadFile("https://crafthead.net/helm/" + uuid + "/100", skinFile.getAbsolutePath());
             
             Log.i("SkinLoader", "Update skin face success");
         } catch (IOException e) {
@@ -116,7 +119,7 @@ public class MinecraftAccount {
         return BitmapFactory.decodeFile(getSkinFaceFile(username).getAbsolutePath());
     }
 
-    private static File getSkinFaceFile(String username) {
+    public static File getSkinFaceFile(String username) {
         return new File(Tools.DIR_CACHE, username + ".png");
     }
 

@@ -3,6 +3,8 @@ package com.kdt.mcgui;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -159,13 +161,6 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
     @Override
     public final void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        if(position == 0){  // Add account button
-//            if(mAccountList.size() > 1){
-//                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
-//            }
-//            return;
-//        }
-
         pickAccount(position);
         if (mSelectecAccount != null) {
             performLogin(mSelectecAccount);
@@ -231,6 +226,12 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
                     mAccountList.add(fileName.substring(0, fileName.length() - 5));
                 }
             }
+            if (!mAccountList.isEmpty()) {
+                String name = PojavProfile.getCurrentProfileName(getContext());
+                if (mAccountList.contains(name)) {
+                    overridePosition = mAccountList.indexOf(name);
+                }
+            }
         }
 
         if (mAccountList.isEmpty()) {
@@ -274,8 +275,8 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
         MinecraftAccount selectedAccount = null;
         String name = mAccountList.get(position);
         if (!name.equals(getContext().getString(R.string.main_add_account))) {
-            selectedAccount = PojavProfile.getCurrentProfileContent(getContext(), mAccountList.get(position));
-            PojavProfile.setCurrentProfile(getContext(), mAccountList.get(position));
+            selectedAccount = PojavProfile.getCurrentProfileContent(getContext(), name);
+            PojavProfile.setCurrentProfile(getContext(), name);
             if (selectedAccount == null) {
                 removeCurrentAccount();
                 return;
@@ -290,19 +291,23 @@ public class McAccountSpinner extends AppCompatSpinner implements AdapterView.On
             return;
         }
         if (mSelectecAccount.isMicrosoft) {
-            if (mSelectecAccount.getSkinFace() != null) {
-                userIcon.setImageDrawable(new BitmapDrawable(getResources(), mSelectecAccount.getSkinFace()));
+            File file = MinecraftAccount.getSkinFaceFile(mSelectecAccount.username);
+            if (file.exists()) {
+                userIcon.setImageDrawable(new BitmapDrawable(
+                        getResources(),
+                        mSelectecAccount.getSkinFace()
+                ));
             } else {
                 PojavApplication.sExecutorService.execute(() -> {
                             mSelectecAccount.updateSkinFace();
-                            if (mSelectecAccount.getSkinFace() != null) {
+                            McAccountSpinner.this.post(() -> {
                                 userIcon.setImageDrawable(
                                         new BitmapDrawable(
                                                 getResources(),
                                                 mSelectecAccount.getSkinFace()
                                         )
                                 );
-                            }
+                            });
                         }
                 );
             }
