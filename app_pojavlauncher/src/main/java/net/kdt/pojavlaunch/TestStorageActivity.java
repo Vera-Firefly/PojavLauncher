@@ -35,7 +35,7 @@ public class TestStorageActivity extends Activity {
     private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                showDialog(v -> {
+                showDialog(() -> {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     startActivityForResult(intent, REQUEST_STORAGE_REQUEST_CODE);
@@ -45,21 +45,21 @@ public class TestStorageActivity extends Activity {
             }
         } else {
             if (!isStorageAllowed(this)) {
-                showDialog(v -> requestStoragePermission());
+                showDialog(() -> requestStoragePermission());
             } else {
                 exit();
             }
         }
     }
 
-    private void showDialog(Consumer<Void> consumer) {
+    private void showDialog(Runnable runnable) {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage(R.string.request_storage)
                 .setNegativeButton(R.string.exit, (d, w) -> {
                     finish();
                 })
                 .setPositiveButton(R.string.confirm, (d, w) -> {
-                    consumer.accept(null);
+                    runnable.run();
                 }).create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
