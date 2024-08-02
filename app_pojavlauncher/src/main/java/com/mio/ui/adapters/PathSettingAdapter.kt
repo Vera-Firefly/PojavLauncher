@@ -59,17 +59,23 @@ class PathSettingAdapter(val context: Context, private var pathList: MutableList
                         if (pathList.size == 1) {
                             return@setPositiveButton
                         }
-                        pathList.removeAt(position)
                         var pos = position
-                        if (position == pathList.size) {
+                        if (pathList[position].selected.get()) {
                             pos -= 1
-                            if (pos < 0) pos = 0
+                            if (pos < 0) {
+                                pos = 0
+                            }
+                            pathList.removeAt(position)
+                            for ((index, path) in pathList.withIndex()) {
+                                path.selected.set(index == pos)
+                            }
+                        } else {
+                            pathList.removeAt(position)
                         }
-                        for ((index, path) in pathList.withIndex()) {
-                            path.selected.set(index == pos)
-                        }
+
                         PathManager.save()
-                        notifyDataSetChanged()
+                        notifyItemRemoved(position)
+                        notifyItemRangeChanged(position, itemCount - position)
                     }
                     setNegativeButton(R.string.global_cancel, null)
                     show()
