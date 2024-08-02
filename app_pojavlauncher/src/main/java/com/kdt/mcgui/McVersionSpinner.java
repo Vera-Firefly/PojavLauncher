@@ -20,8 +20,11 @@ import android.widget.PopupWindow;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
+import com.mio.managers.PathManager;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -168,6 +171,13 @@ public class McVersionSpinner extends ExtendedTextView {
                 scaleY.start();
                 // Post() is required for the layout inflation phase
                 post(() -> mListView.setSelection(mSelectedIndex));
+            }
+        });
+        PathManager.getObservablePath().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                reloadProfiles();
+                setProfileSelection(0);
             }
         });
     }

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McAccountSpinner
 import com.kdt.mcgui.ProgressLayout
@@ -25,6 +26,8 @@ import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
 import com.mio.fragments.SettingFragment
+import com.mio.managers.PathManager
+import com.mio.managers.PrefManager
 import com.mio.utils.AnimUtil
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.R
@@ -66,9 +69,17 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initSetting()
         initUI()
         startAnimation()
         initPojav()
+    }
+
+    private fun initSetting() {
+        PrefManager.load(this)
+        PathManager.load()
+        PathManager.refreshPath()
+        LauncherProfiles.load(this)
     }
 
     private fun initUI() {

@@ -1,5 +1,6 @@
 package net.kdt.pojavlaunch.value.launcherprofiles;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 public class LauncherProfiles {
     public static MinecraftLauncherProfiles mainProfileJson;
-    private static final File launcherProfilesFile = new File(Tools.DIR_GAME_NEW, "launcher_profiles.json");
+    public static File launcherProfilesFile = new File(Tools.DIR_GAME_NEW, "launcher_profiles.json");
 
     /** Reload the profile from the file, creating a default one if necessary */
     public static void load(){
@@ -42,6 +43,16 @@ public class LauncherProfiles {
         }
     }
 
+    public static void load(Context context) {
+        if (!launcherProfilesFile.exists()) {
+            try {
+                Tools.copyAssetFile(context, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
+            } catch (IOException ignore) {
+            }
+        }
+        load();
+    }
+
     /** Apply the current configuration into a file */
     public static void write() {
         try {
@@ -56,6 +67,9 @@ public class LauncherProfiles {
         if(mainProfileJson == null) LauncherProfiles.load();
         String defaultProfileName = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, "");
         MinecraftProfile profile = mainProfileJson.profiles.get(defaultProfileName);
+        mainProfileJson.profiles.forEach((s, minecraftProfile) -> {
+            Log.e("测试",s +":"+ launcherProfilesFile.getAbsolutePath());
+        });
         if(profile == null) throw new RuntimeException("The current profile stopped existing :(");
         return profile;
     }

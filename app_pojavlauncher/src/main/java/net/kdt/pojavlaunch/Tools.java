@@ -47,6 +47,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mio.activity.NewLauncherActivity;
+import com.mio.managers.PrefManager;
 
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor;
 import net.kdt.pojavlaunch.lifecycle.ContextExecutorTask;
@@ -155,11 +156,12 @@ public final class Tools {
      * Any value (in)directly dependant on DIR_DATA should be set only here.
      */
     public static void initContextConstants(Context ctx){
+        PrefManager.load(ctx);
         DIR_CACHE = ctx.getCacheDir();
         DIR_DATA = ctx.getFilesDir().getParent();
         MULTIRT_HOME = DIR_DATA+"/runtimes";
         DIR_GAME_HOME = getPojavStorageRoot(ctx).getAbsolutePath();
-        DIR_GAME_NEW = DIR_GAME_HOME + "/.minecraft";
+        DIR_GAME_NEW = PrefManager.getCurrentPath() + "/.minecraft";
         DIR_HOME_VERSION = DIR_GAME_NEW + "/versions";
         DIR_HOME_LIBRARY = DIR_GAME_NEW + "/libraries";
         DIR_HOME_CRASH = DIR_GAME_NEW + "/crash-reports";
@@ -168,6 +170,7 @@ public final class Tools {
         CTRLMAP_PATH = DIR_GAME_HOME + "/controlmap";
         CTRLDEF_FILE = DIR_GAME_HOME + "/controlmap/default.json";
         NATIVE_LIB_DIR = ctx.getApplicationInfo().nativeLibraryDir;
+        LauncherProfiles.launcherProfilesFile = new File(Tools.DIR_GAME_NEW, "launcher_profiles.json");
     }
 
     public static void launchMinecraft(final AppCompatActivity activity, MinecraftAccount minecraftAccount,
@@ -239,10 +242,10 @@ public final class Tools {
 
     public static File getGameDirPath(@NonNull MinecraftProfile minecraftProfile){
         if(minecraftProfile.gameDir != null){
-            if(minecraftProfile.gameDir.startsWith(Tools.LAUNCHERPROFILES_RTPREFIX))
-                return new File(minecraftProfile.gameDir.replace(Tools.LAUNCHERPROFILES_RTPREFIX,Tools.DIR_GAME_HOME+"/"));
+            if (minecraftProfile.gameDir.startsWith(Tools.LAUNCHERPROFILES_RTPREFIX))
+                return new File(minecraftProfile.gameDir.replace(Tools.LAUNCHERPROFILES_RTPREFIX, PrefManager.getCurrentPath() + "/"));
             else
-                return new File(Tools.DIR_GAME_HOME,minecraftProfile.gameDir);
+                return new File(PrefManager.getCurrentPath(), minecraftProfile.gameDir);
         }
         return new File(Tools.DIR_GAME_NEW);
     }

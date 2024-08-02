@@ -29,7 +29,7 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
         const val TAG = "HomeFragment"
     }
 
-    public lateinit var binding: FragmentHomeBinding
+    lateinit var binding: FragmentHomeBinding
     private val runnable = Runnable { closeAuthMenu() };
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +72,11 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
             when (v) {
                 userIcon -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
                 gameSetting -> binding.mcVersionSpinner.openProfileEditor(this@HomeFragment)
-//              pathSetting->
+                pathSetting -> swapChildFragment(
+                    PathSettingFragment::class.java,
+                    PathSettingFragment.TAG
+                )
+
                 edit -> openAuthMenu()
                 add -> {
                     ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
