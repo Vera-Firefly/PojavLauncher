@@ -401,4 +401,9 @@
     <string name="execute_jar_incompatible_runtime">Execute .jar feature is not compatible with Java %d</string>
     <string name="custom_path">Custom path</string>
     <string name="isolate_game">Isolate game</string>
+    <string name="add">Add</string>
+    <string name="refresh">Refresh</string>
+    <string name="exit">Exit</string>
+    <string name="confirm">Confirm</string>
+    <string name="request_storage">Pojav Infinity requires read/write permission to manage files on the device in order to customize the game path. Please grant permission to Pojav Infinity!</string>
 </resources>

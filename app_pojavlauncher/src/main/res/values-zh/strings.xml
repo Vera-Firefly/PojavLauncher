@@ -345,4 +345,9 @@
     <string name="menu_remove_account">删除当前账号</string>
     <string name="custom_path">自定义路径</string>
     <string name="isolate_game">版本隔离</string>
+    <string name="add">添加</string>
+    <string name="refresh">刷新</string>
+    <string name="exit">退出</string>
+    <string name="confirm">确认</string>
+    <string name="request_storage">Pojav Infinity需要读写权限自定义游戏路径。请授权！</string>
 </resources>
