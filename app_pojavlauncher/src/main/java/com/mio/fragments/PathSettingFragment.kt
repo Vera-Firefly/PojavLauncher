@@ -1,7 +1,9 @@
 package com.mio.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mio.managers.PathManager
 import com.mio.ui.adapters.PathSettingAdapter
@@ -21,6 +23,9 @@ class PathSettingFragment : BaseFragment(R.layout.fragment_path_setting) {
             adapter = context?.let { PathSettingAdapter(it, PathManager.pathList) }
             recyclerView.layoutManager = LinearLayoutManager(context)
             add.setOnClickListener {
+                FilePickFragment.setResultListener(this@PathSettingFragment,FilePickFragment.REQUEST_PICK_FILE) {
+                    Log.e("测试",it.getString("file","file"))
+                }
                 swapParentFragment(FilePickFragment::class.java, FilePickFragment.TAG)
             }
         }

@@ -21,6 +21,7 @@
         <item name="themeColorPrimaryLight">@color/theme_color_primary_light</item>
         <item name="themeColorSecondary">@color/theme_color_secondary</item>
         <item name="themeColorSecondaryLight">@color/theme_color_secondary_light</item>
+        <item name="themeColorBackground">@color/theme_color_background</item>
 
     </style>
 

@@ -13,7 +13,7 @@
             android:layout_height="0dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:background="@color/theme_background"
+            android:background="?attr/themeColorBackground"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

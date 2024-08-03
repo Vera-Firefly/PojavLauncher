@@ -8,5 +8,5 @@
     <color name="theme_color_primary_light">#A1A8A3</color>
     <color name="theme_color_secondary">#E6755F</color>
     <color name="theme_color_secondary_light">#F1D9D5</color>
-    <color name="theme_background">#2E2E2E</color>
+    <color name="theme_color_background">#2E2E2E</color>
 </resources>
