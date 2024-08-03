@@ -1,5 +1,6 @@
 package com.mio.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -19,6 +20,7 @@ class PathSettingFragment : BaseFragment(R.layout.fragment_path_setting) {
     }
 
     private lateinit var binding: FragmentPathSettingBinding
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         parentID = R.id.container_fragment_home
