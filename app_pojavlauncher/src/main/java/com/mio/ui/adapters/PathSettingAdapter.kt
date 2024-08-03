@@ -26,13 +26,14 @@ class PathSettingAdapter(val context: Context, private var pathList: MutableList
     var listener: OnItemSelectedListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DataBindingUtil.inflate<ItemPathSettingBinding>(
-            LayoutInflater.from(context),
-            R.layout.item_path_setting,
-            parent,
-            false
+        return ViewHolder(
+            DataBindingUtil.inflate<ItemPathSettingBinding>(
+                LayoutInflater.from(context),
+                R.layout.item_path_setting,
+                parent,
+                false
+            ).root
         )
-        return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

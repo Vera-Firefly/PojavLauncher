@@ -13,16 +13,16 @@ class PathSettingFragment : BaseFragment(R.layout.fragment_path_setting) {
         const val TAG = "PathSettingFragment"
     }
 
-    private lateinit var adapter: PathSettingAdapter
-
     private lateinit var binding: FragmentPathSettingBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPathSettingBinding.bind(view)
         parentID = R.id.container_fragment_home
-        binding.apply {
+        binding = FragmentPathSettingBinding.bind(view).apply {
             adapter = context?.let { PathSettingAdapter(it, PathManager.pathList) }
             recyclerView.layoutManager = LinearLayoutManager(context)
+            add.setOnClickListener {
+                swapParentFragment(FilePickFragment::class.java, FilePickFragment.TAG)
+            }
         }
     }
 

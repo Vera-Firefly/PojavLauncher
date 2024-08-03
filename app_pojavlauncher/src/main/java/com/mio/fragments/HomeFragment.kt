@@ -34,9 +34,8 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHomeBinding.bind(view)
         childID = R.id.container_fragment_home
-        binding.apply {
+        binding = FragmentHomeBinding.bind(view).apply {
             userIcon.setOnClickListener(this@HomeFragment)
             gameSetting.setOnClickListener(this@HomeFragment)
             pathSetting.setOnClickListener(this@HomeFragment)
