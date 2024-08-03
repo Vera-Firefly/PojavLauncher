@@ -352,4 +352,6 @@
     <string name="request_storage">Pojav Infinity需要读写权限自定义游戏路径。请授权！</string>
     <string name="dialog_delete_confirm">你确定要删除吗？</string>
     <string name="rename">重命名</string>
+    <string name="private_dir">应用私有目录</string>
+    <string name="external_storage_dir">外部储存目录</string>
 </resources>

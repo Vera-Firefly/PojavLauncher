@@ -1,12 +1,15 @@
 package com.mio.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
 import android.view.View
-import androidx.fragment.app.setFragmentResultListener
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mio.databinding.model.Path
 import com.mio.managers.PathManager
 import com.mio.ui.adapters.PathSettingAdapter
+import com.mio.ui.dialog.RenameDialog
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentPathSettingBinding
 
@@ -20,13 +23,54 @@ class PathSettingFragment : BaseFragment(R.layout.fragment_path_setting) {
         super.onViewCreated(view, savedInstanceState)
         parentID = R.id.container_fragment_home
         binding = FragmentPathSettingBinding.bind(view).apply {
-            adapter = context?.let { PathSettingAdapter(it, PathManager.pathList) }
+            adapter = PathSettingAdapter(requireContext(), PathManager.pathList)
             recyclerView.layoutManager = LinearLayoutManager(context)
             add.setOnClickListener {
-                FilePickFragment.setResultListener(this@PathSettingFragment,FilePickFragment.REQUEST_PICK_FILE) {
-                    Log.e("测试",it.getString("file","file"))
+                FilePickFragment.setResultListener(
+                    this@PathSettingFragment,
+                    FilePickFragment.REQUEST_PICK_FOLDER
+                ) {
+                    RenameDialog(
+                        requireContext(),
+                        requireContext().getString(R.string.rename)
+                    ).apply {
+                        onConfirm = { str ->
+                            PathManager.pathList.add(
+                                Path(
+                                    ObservableField(str), ObservableField(it.getString("file", "")),
+                                    ObservableBoolean(false)
+                                )
+                            )
+                            PathManager.save()
+                            adapter?.notifyDataSetChanged()
+                        }
+                        show()
+                    }
                 }
-                swapParentFragment(FilePickFragment::class.java, FilePickFragment.TAG)
+                FilePickFragment.openPicker(
+                    parentFragmentManager, parentID,
+                    Environment.getExternalStorageDirectory().absolutePath, false
+                )
+            }
+            adapter?.folderClickListener = { pos ->
+                PathManager.pathList[pos].path.let {
+                    FilePickFragment.setResultListener(
+                        this@PathSettingFragment,
+                        FilePickFragment.REQUEST_PICK_FOLDER
+                    ) { bundle ->
+                        it.set(bundle.getString("file", ""))
+                    }
+                    it.get()?.let { value ->
+                        FilePickFragment.openPicker(
+                            parentFragmentManager, parentID,
+                            value, false
+                        )
+                    }
+                }
+            }
+            refresh.setOnClickListener {
+                PathManager.load()
+                adapter?.notifyDataSetChanged()
             }
         }
     }

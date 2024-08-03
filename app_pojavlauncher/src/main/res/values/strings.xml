@@ -408,4 +408,6 @@
     <string name="request_storage">Pojav Infinity requires read/write permission to manage files on the device in order to customize the game path. Please grant permission to Pojav Infinity!</string>
     <string name="dialog_delete_confirm">Are you sure to delete?</string>
     <string name="rename">Rename</string>
+    <string name="private_dir">App private directory</string>
+    <string name="external_storage_dir">External storage directory</string>
 </resources>

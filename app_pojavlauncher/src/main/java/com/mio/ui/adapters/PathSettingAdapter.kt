@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mio.databinding.listener.OnItemSelectedListener
 import com.mio.databinding.model.Path
 import com.mio.managers.PathManager
 import com.mio.managers.PrefManager
@@ -17,13 +16,13 @@ import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.ItemPathSettingBinding
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles
 
-class PathSettingAdapter(val context: Context, private var pathList: MutableList<Path>) :
+class PathSettingAdapter(val context: Context, private val pathList: MutableList<Path>) :
     RecyclerView.Adapter<PathSettingAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     }
 
-    var listener: OnItemSelectedListener? = null
+    var folderClickListener: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -83,13 +82,19 @@ class PathSettingAdapter(val context: Context, private var pathList: MutableList
                 }
             }
             folder.setOnClickListener {
-
+                folderClickListener?.invoke(position)
             }
         }
     }
 
     override fun getItemCount(): Int {
         return pathList.size
+    }
+
+    fun add(path: Path) {
+        pathList.add(path)
+        notifyItemInserted(itemCount - 1)
+        notifyItemRangeChanged(itemCount - 1, 1)
     }
 
     private fun select(position: Int) {
