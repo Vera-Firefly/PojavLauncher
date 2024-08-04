@@ -13,7 +13,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "translationY", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -25,7 +25,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "translationX", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -37,7 +37,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "translationZ", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -49,7 +49,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "rotation", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -61,7 +61,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "scaleX", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -73,7 +73,7 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "scaleY", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
@@ -85,11 +85,16 @@ class AnimUtil {
             duration: Long,
             interpolator: TimeInterpolator? = null,
             vararg values: Float
-        ): Animator {
+        ): ObjectAnimator {
             return ObjectAnimator.ofFloat(view, "alpha", *values).apply {
                 this.duration = duration
                 this.interpolator = interpolator
             }
+        }
+
+        fun ObjectAnimator.delay(delayTime: Long): ObjectAnimator {
+            this.startDelay = delayTime
+            return this
         }
     }
 }

@@ -61,7 +61,8 @@
                 <com.mio.ui.EditText
                     android:id="@+id/login_edit_email"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_37sdp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/_10sdp"
                     android:background="@drawable/background_line"
                     android:imeOptions="flagNoExtractUi"
                     android:inputType="textEmailAddress"

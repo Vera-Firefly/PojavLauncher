@@ -17,7 +17,7 @@ class RenameDialog(context: Context, var title: String) : BaseDialog(context) {
         bind?.apply {
             title.setText(this@RenameDialog.title)
             confirm.setOnClickListener {
-                if (!edit.text.toString().trim().equals("")) {
+                if (edit.text.toString().trim() != "") {
                     dismiss()
                     onConfirm?.invoke(edit.text.toString())
                 }
