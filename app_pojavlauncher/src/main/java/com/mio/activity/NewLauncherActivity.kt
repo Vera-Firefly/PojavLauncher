@@ -22,6 +22,7 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.kdt.mcgui.McAccountSpinner
 import com.kdt.mcgui.ProgressLayout
+import com.mio.Detector
 import com.mio.fragments.DownloadFragment
 import com.mio.fragments.HomeFragment
 import com.mio.fragments.SelectAuthFragment
@@ -69,6 +70,7 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Detector.install()
         initSetting()
         initUI()
         startAnimation()

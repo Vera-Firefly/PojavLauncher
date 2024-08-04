@@ -1,6 +1,5 @@
 package com.kdt.mcgui;
 
-import static net.kdt.pojavlaunch.fragments.ProfileEditorFragment.DELETED_PROFILE;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -22,15 +21,13 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
+import com.mio.fragments.ProfileEditFragment;
 import com.mio.managers.PathManager;
 
 import net.kdt.pojavlaunch.R;
-import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
-import net.kdt.pojavlaunch.fragments.ProfileEditorFragment;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.profiles.ProfileAdapter;
 import net.kdt.pojavlaunch.profiles.ProfileAdapterExtra;
@@ -91,15 +88,6 @@ public class McVersionSpinner extends ExtendedTextView {
         mSelectedIndex = position;
     }
 
-    public void openProfileEditor(FragmentActivity fragmentActivity) {
-        Object currentSelection = mProfileAdapter.getItem(mSelectedIndex);
-        if (currentSelection instanceof ProfileAdapterExtra) {
-            performExtraAction((ProfileAdapterExtra) currentSelection);
-        } else {
-            Tools.swapFragment(fragmentActivity, ProfileEditorFragment.class, ProfileEditorFragment.TAG, null);
-        }
-    }
-
     public void openProfileEditor(Fragment fragment) {
         Object currentSelection = mProfileAdapter.getItem(mSelectedIndex);
         if (currentSelection instanceof ProfileAdapterExtra) {
@@ -108,8 +96,8 @@ public class McVersionSpinner extends ExtendedTextView {
             fragment.getChildFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                     .setReorderingAllowed(true)
-                    .addToBackStack(ProfileEditorFragment.TAG)
-                    .replace(R.id.container_fragment_home, ProfileEditorFragment.class, null, ProfileEditorFragment.TAG)
+                    .addToBackStack(ProfileEditFragment.TAG)
+                    .replace(R.id.container_fragment_home, ProfileEditFragment.class, null, ProfileEditFragment.TAG)
                     .commit();
         }
     }
@@ -136,7 +124,7 @@ public class McVersionSpinner extends ExtendedTextView {
         int profileIndex;
         String extra_value = (String) ExtraCore.consumeValue(ExtraConstants.REFRESH_VERSION_SPINNER);
         if (extra_value != null) {
-            profileIndex = extra_value.equals(DELETED_PROFILE) ? 0
+            profileIndex = extra_value.equals(ProfileEditFragment.DELETED_PROFILE) ? 0
                     : getProfileAdapter().resolveProfileIndex(extra_value);
         } else {
             profileIndex = mProfileAdapter.resolveProfileIndex(

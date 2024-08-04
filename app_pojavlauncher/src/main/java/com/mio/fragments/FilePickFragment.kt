@@ -9,10 +9,12 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mio.ui.adapters.FilePickAdapter
+import com.mio.ui.dialog.RenameDialog
 import com.mio.utils.FragmentUtil
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentFilePickBinding
+import java.io.File
 
 class FilePickFragment : BaseFragment(R.layout.fragment_file_pick) {
     companion object {
@@ -23,6 +25,7 @@ class FilePickFragment : BaseFragment(R.layout.fragment_file_pick) {
         const val BUNDLE_SELECT_FILE = "BUNDLE_SELECT_FILE"
         const val BUNDLE_SELECT_FOLDER = BUNDLE_SELECT_FILE
 
+        @JvmStatic
         fun setResultListener(
             fragment: Fragment,
             key: String,
@@ -36,6 +39,7 @@ class FilePickFragment : BaseFragment(R.layout.fragment_file_pick) {
             fragment.setFragmentResultListener(key, l)
         }
 
+        @JvmStatic
         fun openPicker(
             manager: FragmentManager,
             containerID: Int,
@@ -78,6 +82,19 @@ class FilePickFragment : BaseFragment(R.layout.fragment_file_pick) {
             }
             externalDir.setOnClickListener {
                 adapter?.gotoDir(Environment.getExternalStorageDirectory())
+            }
+            createFolder.setOnClickListener {
+                RenameDialog(requireContext(),requireContext().getString(R.string.folder_fragment_create)).apply {
+                    onConfirm = {
+                        val path = adapter?.currentPath!!.get()
+                        File(path,it).mkdirs()
+                        adapter?.gotoDir(path!!)
+                    }
+                    show()
+                }
+            }
+            cancel.setOnClickListener {
+                parentFragmentManager.popBackStack()
             }
         }
     }

@@ -11,11 +11,12 @@ import android.widget.ListView;
 
 import androidx.core.graphics.ColorUtils;
 
+import com.mio.fragments.ProfileEditFragment;
+
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
-import net.kdt.pojavlaunch.fragments.ProfileEditorFragment;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
@@ -115,7 +116,7 @@ public class ProfileAdapter extends BaseAdapter {
                 ProfileIconCache.dropIcon(key);
                 LauncherProfiles.mainProfileJson.profiles.remove(key);
                 LauncherProfiles.write();
-                ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, ProfileEditorFragment.DELETED_PROFILE);
+                ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, ProfileEditFragment.DELETED_PROFILE);
                 notifyDataSetChanged();
                 callback.onDelete(position);
             }

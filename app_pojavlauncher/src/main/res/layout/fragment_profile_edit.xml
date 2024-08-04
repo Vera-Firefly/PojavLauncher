@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.mio.databinding.model.ObservableMinecraftProfile" />
+
+        <import type="com.mio.fragments.ProfileEditFragment" />
+
+        <variable
+            name="profile"
+            type="ObservableMinecraftProfile" />
+
+        <variable
+            name="fragment"
+            type="ProfileEditFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_20sdp"
+        android:background="@drawable/background_button_normal"
+        android:orientation="vertical"
+        tools:ignore="HardcodedText">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fadeScrollbars="true"
+            android:scrollbarThumbVertical="?attr/themeColorSecondary"
+            app:layout_constraintBottom_toTopOf="@id/save"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:paddingHorizontal="@dimen/fragment_padding_medium">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/padding_heavy"
+                    android:paddingHorizontal="@dimen/profile_editor_image_padding"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <ImageView
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:background="@drawable/background_icon_edit"
+                    android:src="@drawable/ic_edit_profile"
+                    app:layout_constraintBottom_toBottomOf="@+id/icon"
+                    app:layout_constraintEnd_toEndOf="@+id/icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profiles_profile_name"
+                    app:layout_constraintBottom_toTopOf="@+id/name"
+                    app:layout_constraintStart_toStartOf="@+id/name" />
+
+                <com.mio.ui.EditText
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:background="@drawable/background_line"
+                    android:ems="10"
+                    android:hint="@string/unnamed"
+                    android:inputType="textPersonName"
+                    android:paddingHorizontal="@dimen/padding_heavy"
+                    android:text="@{profile.name}"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toStartOf="@id/isolate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon" />
+
+                <com.mio.ui.PressScaleButton
+                    android:id="@+id/isolate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:onClick="@{fragment.onClick}"
+                    android:text="@string/isolate_game"
+                    app:layout_constraintBottom_toBottomOf="@id/name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/name"
+                    app:layout_constraintTop_toTopOf="@id/name" />
+
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profiles_profile_version"
+                    app:layout_constraintBottom_toTopOf="@id/version_text"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/version_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:background="@drawable/background_line"
+                    android:hint="@string/version_select_hint"
+                    android:paddingHorizontal="@dimen/padding_heavy"
+                    android:text="@{profile.lastVersionId}"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toStartOf="@id/version"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
+
+                <com.mio.ui.PressScaleButton
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:onClick="@{fragment.onClick}"
+                    android:text="@string/global_select"
+                    app:layout_constraintBottom_toBottomOf="@+id/version_text"
+                    app:layout_constraintEnd_toStartOf="@id/ctrl_text"
+                    app:layout_constraintStart_toEndOf="@id/version_text"
+                    app:layout_constraintTop_toTopOf="@+id/version_text" />
+
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_control"
+                    app:layout_constraintBottom_toTopOf="@+id/ctrl_text"
+                    app:layout_constraintStart_toStartOf="@+id/ctrl_text" />
+
+                <TextView
+                    android:id="@+id/ctrl_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:background="@drawable/background_line"
+                    android:hint="@string/use_global_default"
+                    android:paddingHorizontal="@dimen/padding_heavy"
+                    android:text="@{profile.controlFile}"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toStartOf="@id/ctrl"
+                    app:layout_constraintStart_toEndOf="@id/version"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <com.mio.ui.PressScaleButton
+                    android:id="@+id/ctrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:onClick="@{fragment.onClick}"
+                    android:text="@string/global_select"
+                    app:layout_constraintBottom_toBottomOf="@id/ctrl_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ctrl_text" />
+
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pvc_jvmArgs"
+                    app:layout_constraintBottom_toTopOf="@+id/jre_args"
+                    app:layout_constraintStart_toStartOf="@+id/jre_args" />
+
+                <com.mio.ui.EditText
+                    android:id="@+id/jre_args"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/background_line"
+                    android:ems="10"
+                    android:hint="@string/use_global_default"
+                    android:inputType="text"
+                    android:paddingHorizontal="@dimen/padding_heavy"
+                    android:text="@{profile.javaArgs}"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintTop_toBottomOf="@+id/ctrl_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom_path"
+                    app:layout_constraintBottom_toTopOf="@+id/path_text"
+                    app:layout_constraintStart_toStartOf="@+id/path_text" />
+
+                <TextView
+                    android:id="@+id/path_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="@dimen/padding_medium"
+                    android:background="@drawable/background_line"
+                    android:ems="10"
+                    android:paddingHorizontal="@dimen/padding_heavy"
+                    android:text="@{profile.gameDir}"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toStartOf="@id/path_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/jre_args" />
+
+                <com.mio.ui.PressScaleButton
+                    android:id="@+id/path_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:onClick="@{fragment.onClick}"
+                    android:text="@string/global_select"
+                    app:layout_constraintBottom_toBottomOf="@id/path_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/path_text" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pedit_java_runtime"
+                    app:layout_constraintBottom_toTopOf="@+id/runtime_spinner"
+                    app:layout_constraintStart_toStartOf="@+id/runtime_spinner" />
+
+                <Spinner
+                    android:id="@+id/runtime_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/background_line"
+                    android:paddingVertical="0px"
+                    app:layout_constraintEnd_toStartOf="@id/renderer_spinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/path_text"
+                    tools:paddingVertical="@dimen/_12sdp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_8sdp"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:rotation="180"
+                    android:src="@drawable/spinner_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/runtime_spinner"
+                    app:layout_constraintEnd_toEndOf="@id/runtime_spinner"
+                    app:layout_constraintTop_toTopOf="@id/runtime_spinner" />
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pedit_renderer"
+                    app:layout_constraintBottom_toTopOf="@id/renderer_spinner"
+                    app:layout_constraintStart_toStartOf="@id/renderer_spinner" />
+
+                <Spinner
+                    android:id="@+id/renderer_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@drawable/background_line"
+                    android:dropDownWidth="match_parent"
+                    android:paddingVertical="0px"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/runtime_spinner"
+                    app:layout_constraintTop_toBottomOf="@id/textView2"
+                    tools:paddingVertical="@dimen/_12sdp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_8sdp"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:rotation="180"
+                    android:src="@drawable/spinner_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/renderer_spinner"
+                    app:layout_constraintEnd_toEndOf="@id/renderer_spinner"
+                    app:layout_constraintTop_toTopOf="@id/renderer_spinner" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <com.mio.ui.PressScaleButton
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:onClick="@{fragment.onClick}"
+            android:text="@string/global_save"
+            android:textSize="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/delete"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.mio.ui.PressScaleButton
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:onClick="@{fragment.onClick}"
+            android:text="@string/global_delete"
+            android:textSize="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cancel"
+            app:layout_constraintStart_toEndOf="@id/save" />
+
+        <com.mio.ui.PressScaleButton
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:onClick="@{fragment.onClick}"
+            android:text="@string/global_cancel"
+            android:textSize="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/delete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -3,13 +3,11 @@ package com.mio.fragments
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
-import androidx.fragment.app.Fragment
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentDownloadGameBinding
 import net.kdt.pojavlaunch.fragments.FabricInstallFragment
 import net.kdt.pojavlaunch.fragments.ForgeInstallFragment
 import net.kdt.pojavlaunch.fragments.OptiFineInstallFragment
-import net.kdt.pojavlaunch.fragments.ProfileEditorFragment
 import net.kdt.pojavlaunch.fragments.QuiltInstallFragment
 
 class GameDownloadFragment() : BaseFragment(R.layout.fragment_download_game), OnClickListener {
@@ -34,8 +32,8 @@ class GameDownloadFragment() : BaseFragment(R.layout.fragment_download_game), On
         when (v) {
             binding.vanillaProfile -> {
                 swapParentFragment(
-                    ProfileEditorFragment::class.java,
-                    ProfileEditorFragment.TAG,
+                    ProfileEditFragment::class.java,
+                    ProfileEditFragment.TAG,
                     Bundle(1)
                 )
             }
