@@ -8,6 +8,7 @@ import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import com.mio.utils.AnimUtil
+import com.mio.utils.AnimUtil.Companion.interpolator
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentDownloadBinding
@@ -71,13 +72,34 @@ class DownloadFragment() : BaseFragment(R.layout.fragment_download), OnClickList
     }
 
     private fun startAnimation() {
-        AnimUtil.playTranslationX(binding.scrollview, 1000, BounceInterpolator(), -400f, 0f).start()
-        AnimUtil.playTranslationY(binding.gameDownload,500,BounceInterpolator(),-200f,0f).start()
-        AnimUtil.playTranslationY(binding.modDownload,400,BounceInterpolator(),400f,0f).start()
-        AnimUtil.playTranslationY(binding.modpackDownload,500,BounceInterpolator(),500f,0f).start()
-        AnimUtil.playTranslationX(binding.containerFragmentDownload,500,null,500f,0f).start()
-        AnimUtil.playScaleX(binding.containerFragmentDownload,1000,BounceInterpolator(),0f,1f,0.5f,1f).start()
-        AnimUtil.playScaleY(binding.containerFragmentDownload,1000,BounceInterpolator(),0f,1f,0.5f,1f).start()
+        AnimUtil.playTranslationX(binding.scrollview, 1000, -400f, 0f)
+            .interpolator(BounceInterpolator()).start()
+        AnimUtil.playTranslationY(binding.gameDownload, 500, -200f, 0f)
+            .interpolator(BounceInterpolator())
+            .start()
+        AnimUtil.playTranslationY(binding.modDownload, 400, 400f, 0f)
+            .interpolator(BounceInterpolator()).start()
+        AnimUtil.playTranslationY(binding.modpackDownload, 500, 500f, 0f)
+            .interpolator(BounceInterpolator())
+            .start()
+        AnimUtil.playTranslationX(binding.containerFragmentDownload, 500, 500f, 0f)
+            .interpolator(BounceInterpolator()).start()
+        AnimUtil.playScaleX(
+            binding.containerFragmentDownload,
+            1000,
+            0f,
+            1f,
+            0.5f,
+            1f
+        ).interpolator(BounceInterpolator()).start()
+        AnimUtil.playScaleY(
+            binding.containerFragmentDownload,
+            1000,
+            0f,
+            1f,
+            0.5f,
+            1f
+        ).interpolator(BounceInterpolator()).start()
     }
 
     private fun runInstallerWithConfirmation(isCustomArgs: Boolean) {

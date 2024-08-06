@@ -8,6 +8,7 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.OvershootInterpolator
 import com.mio.utils.AnimUtil
 import com.mio.utils.AnimUtil.Companion.delay
+import com.mio.utils.AnimUtil.Companion.interpolator
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentSelectAuthMethodBinding
@@ -42,12 +43,16 @@ class SelectAuthFragment : BaseFragment(R.layout.fragment_select_auth_method) {
     override fun onResume() {
         super.onResume()
         binding.apply {
-            AnimUtil.playTranslationY(card, 800, OvershootInterpolator(), -400f, 0f).start()
-            AnimUtil.playTranslationY(microsoft, 800, BounceInterpolator(), -400f, 0f).delay(100)
+            AnimUtil.playTranslationY(card, 800, -400f, 0f).interpolator(OvershootInterpolator())
                 .start()
-            AnimUtil.playTranslationY(other, 800, BounceInterpolator(), -400f, 0f).delay(200)
+            AnimUtil.playTranslationY(microsoft, 800, -400f, 0f).delay(100)
+                .interpolator(BounceInterpolator())
                 .start()
-            AnimUtil.playTranslationY(local, 800, BounceInterpolator(), -400f, 0f).delay(300)
+            AnimUtil.playTranslationY(other, 800, -400f, 0f).delay(200)
+                .interpolator(BounceInterpolator())
+                .start()
+            AnimUtil.playTranslationY(local, 800, -400f, 0f).delay(300)
+                .interpolator(BounceInterpolator())
                 .start()
         }
     }

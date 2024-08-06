@@ -18,11 +18,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import com.kdt.mcgui.McAccountSpinner
 import com.mio.utils.AnimUtil
+import com.mio.utils.AnimUtil.Companion.interpolator
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.databinding.FragmentHomeBinding
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
 import net.kdt.pojavlaunch.profiles.ProfileAdapter.Callback
+import net.kdt.pojavlaunch.profiles.ProfileIconCache
+import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles
 
 class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
     companion object {
@@ -50,7 +53,7 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
                 }
 
                 override fun onDelete(position: Int) {
-                    mcVersionSpinner.setSelection(position - 1)
+                    deleteProfile(position)
                 }
             })
             accountSpinner.setUserIcon(userIcon)
@@ -93,6 +96,29 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
                     closeAuthMenu()
                 }
             }
+        }
+    }
+
+    fun deleteProfile(profileKey: String) {
+        binding.apply {
+            if (LauncherProfiles.mainProfileJson.profiles.size > 1) {
+                ProfileIconCache.dropIcon(profileKey)
+                LauncherProfiles.mainProfileJson.profiles.remove(profileKey)
+                LauncherProfiles.write()
+                mcVersionSpinner.profileAdapter.notifyDataSetChanged()
+                var index = mcVersionSpinner.selectedIndex
+                if (index == mcVersionSpinner.profileAdapter.count - 1) {
+                    index -= 1
+                }
+                mcVersionSpinner.setProfileSelection(index)
+            }
+        }
+    }
+
+    fun deleteProfile(position: Int) {
+        if (LauncherProfiles.mainProfileJson.profiles.size > 1) {
+            val key: String = binding.mcVersionSpinner.profileAdapter.getItem(position).toString()
+            deleteProfile(key)
         }
     }
 
@@ -171,53 +197,53 @@ class HomeFragment() : BaseFragment(R.layout.fragment_home), OnClickListener {
     }
 
     private fun startAuthMenuAnimation(view: View) {
-        AnimUtil.playScaleX(view, 1000, BounceInterpolator(), 0f, 1f, 1.5f).start()
-        AnimUtil.playScaleY(view, 1000, BounceInterpolator(), 0f, 1f, 1.5f).start()
-        AnimUtil.playAlpha(view, 500, null, 0f, 1f).start()
+        AnimUtil.playScaleX(view, 1000, 0f, 1f, 1.5f).interpolator(BounceInterpolator()).start()
+        AnimUtil.playScaleY(view, 1000, 0f, 1f, 1.5f).interpolator(BounceInterpolator()).start()
+        AnimUtil.playAlpha(view, 500, 0f, 1f).start()
     }
 
     private fun endAuthMenuAnimation(view: View) {
-        AnimUtil.playScaleX(view, 500, BounceInterpolator(), 1f, 0f).start()
-        AnimUtil.playScaleY(view, 500, BounceInterpolator(), 1f, 0f).start()
-        AnimUtil.playAlpha(view, 500, null, 1f, 0f).start()
+        AnimUtil.playScaleX(view, 500, 1f, 0f).interpolator(BounceInterpolator()).start()
+        AnimUtil.playScaleY(view, 500, 1f, 0f).interpolator(BounceInterpolator()).start()
+        AnimUtil.playAlpha(view, 500, 1f, 0f).start()
     }
 
     private fun startAnimation() {
-        AnimUtil.playTranslationX(binding.left, 500, BounceInterpolator(), -400f, 0f)
+        AnimUtil.playTranslationX(binding.left, 500, -400f, 0f).interpolator(BounceInterpolator())
             .start()
-        AnimUtil.playTranslationY(binding.userIcon, 2000, BounceInterpolator(), -400f, 0f)
+        AnimUtil.playTranslationY(binding.userIcon, 2000, -400f, 0f)
+            .interpolator(BounceInterpolator())
             .start()
-        AnimUtil.playTranslationX(binding.userIcon, 2000, BounceInterpolator(), -200f, 0f)
+        AnimUtil.playTranslationX(binding.userIcon, 2000, -200f, 0f)
+            .interpolator(BounceInterpolator())
             .start()
-        AnimUtil.playRotation(binding.userIcon, 2000, BounceInterpolator(), -160f, 0f)
+        AnimUtil.playRotation(binding.userIcon, 2000, -160f, 0f).interpolator(BounceInterpolator())
             .start()
-        AnimUtil.playTranslationX(binding.accountSpinner, 1500, BounceInterpolator(), -400f, 0f)
+        AnimUtil.playTranslationX(binding.accountSpinner, 1500, -400f, 0f)
+            .interpolator(BounceInterpolator())
             .start()
-        AnimUtil.playTranslationY(binding.edit, 1000, BounceInterpolator(), -400f, 0f)
+        AnimUtil.playTranslationY(binding.edit, 1000, -400f, 0f).interpolator(BounceInterpolator())
             .start()
         AnimUtil.playTranslationY(
             binding.frameLayout,
             500,
-            AnticipateOvershootInterpolator(),
             300f,
             0f
-        )
+        ).interpolator(AnticipateOvershootInterpolator())
             .start()
         AnimUtil.playTranslationY(
             binding.gameSetting,
             800,
-            AnticipateOvershootInterpolator(),
             300f,
             0f
-        )
+        ).interpolator(AnticipateOvershootInterpolator())
             .start()
         AnimUtil.playTranslationY(
             binding.pathSetting,
             800,
-            AnticipateOvershootInterpolator(),
             300f,
             0f
-        )
+        ).interpolator(AnticipateOvershootInterpolator())
             .start()
     }
 

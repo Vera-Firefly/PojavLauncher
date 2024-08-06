@@ -30,6 +30,7 @@ import com.mio.fragments.SettingFragment
 import com.mio.managers.PathManager
 import com.mio.managers.PrefManager
 import com.mio.utils.AnimUtil
+import com.mio.utils.AnimUtil.Companion.interpolator
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
@@ -135,10 +136,14 @@ class NewLauncherActivity : BaseActivity(), OnClickListener {
     }
 
     private fun startAnimation() {
-        AnimUtil.playScaleX(binding.start, 2000, BounceInterpolator(), 1f, 1.8f, 1.5f).start()
-        AnimUtil.playScaleY(binding.start, 2000, BounceInterpolator(), 1f, 1.8f, 1.5f).start()
-        AnimUtil.playRotation(binding.start, 2000, CycleInterpolator(2f), 0f, 10f).start()
-        AnimUtil.playTranslationY(binding.start, 2500, BounceInterpolator(), -500f, 0f).start()
+        AnimUtil.playScaleX(binding.start, 2000, 1f, 1.8f, 1.5f).interpolator(BounceInterpolator())
+            .start()
+        AnimUtil.playScaleY(binding.start, 2000, 1f, 1.8f, 1.5f).interpolator(BounceInterpolator())
+            .start()
+        AnimUtil.playRotation(binding.start, 2000, 0f, 10f).interpolator(CycleInterpolator(2f))
+            .start()
+        AnimUtil.playTranslationY(binding.start, 2500, -500f, 0f).interpolator(BounceInterpolator())
+            .start()
     }
 
     private fun swapFragment(clazz: Class<out Fragment>, tag: String) {

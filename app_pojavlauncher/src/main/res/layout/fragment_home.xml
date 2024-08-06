@@ -85,7 +85,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/account_spinner">
 
-                <com.kdt.mcgui.McVersionSpinner
+                <com.mio.ui.McVersionSpinner
                     android:id="@+id/mc_version_spinner"
                     android:stateListAnimator="@xml/animate_scale"
                     android:layout_width="match_parent"

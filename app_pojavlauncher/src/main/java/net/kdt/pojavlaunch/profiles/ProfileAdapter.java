@@ -72,7 +72,11 @@ public class ProfileAdapter extends BaseAdapter {
 
 
     public int resolveProfileIndex(String name) {
-        return mProfileList.indexOf(name);
+        int index = mProfileList.indexOf(name);
+        if (index == -1) {
+            index = 0;
+        }
+        return index;
     }
 
     @Override
@@ -111,15 +115,7 @@ public class ProfileAdapter extends BaseAdapter {
         }
         holder.edit.setOnClickListener(v -> callback.onEdit(position));
         holder.delete.setOnClickListener(v -> {
-            if (LauncherProfiles.mainProfileJson.profiles.size() > 1) {
-                String key = getItem(position).toString();
-                ProfileIconCache.dropIcon(key);
-                LauncherProfiles.mainProfileJson.profiles.remove(key);
-                LauncherProfiles.write();
-                ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, ProfileEditFragment.DELETED_PROFILE);
-                notifyDataSetChanged();
-                callback.onDelete(position);
-            }
+            callback.onDelete(position);
         });
         return convertView;
     }

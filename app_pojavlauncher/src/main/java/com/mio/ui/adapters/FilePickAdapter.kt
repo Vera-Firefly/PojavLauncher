@@ -52,7 +52,7 @@ class FilePickAdapter(val context: Context, private val startPath: String) :
                 gotoDir(this)
             }
         }
-        AnimUtil.playTranslationX(holder.itemView, 200, null, -100f, 0f).start()
+        AnimUtil.playTranslationX(holder.itemView, 200, -100f, 0f).start()
     }
 
     override fun getItemCount(): Int {

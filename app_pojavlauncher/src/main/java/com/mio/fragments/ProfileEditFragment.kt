@@ -13,8 +13,6 @@ import com.mio.managers.PathManager
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.databinding.FragmentProfileEditBinding
-import net.kdt.pojavlaunch.extra.ExtraConstants
-import net.kdt.pojavlaunch.extra.ExtraCore
 import net.kdt.pojavlaunch.multirt.MultiRTUtils
 import net.kdt.pojavlaunch.multirt.RTSpinnerAdapter
 import net.kdt.pojavlaunch.multirt.Runtime
@@ -27,7 +25,6 @@ import java.util.Arrays
 class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClickListener {
     companion object {
         const val TAG = "ProfileEditFragment"
-        const val DELETED_PROFILE = "deleted_profile"
     }
 
     private lateinit var bind: FragmentProfileEditBinding
@@ -36,7 +33,8 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parentID = if (arguments == null) R.id.container_fragment_home else R.id.container_fragment_download
+        parentID =
+            if (arguments == null) R.id.container_fragment_home else R.id.container_fragment_download
         load()
         bind = FragmentProfileEditBinding.bind(view).apply {
             profile = tempProfile
@@ -70,9 +68,10 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClic
     }
 
     private fun save() {
-        LauncherProfiles.mainProfileJson.profiles[profileKey] = tempProfile.convert()
-        LauncherProfiles.write()
-        ExtraCore.setValue(ExtraConstants.REFRESH_VERSION_SPINNER, profileKey)
+        if (arguments != null || LauncherProfiles.mainProfileJson.profiles[profileKey] != null) {
+            LauncherProfiles.mainProfileJson.profiles[profileKey] = tempProfile.convert()
+            LauncherProfiles.write()
+        }
     }
 
     override fun onClick(v: View) {
@@ -80,7 +79,7 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClic
             when (v.id) {
                 R.id.isolate -> tempProfile.gameDir.set("./.minecraft/game/" + name.text.toString())
                 R.id.version -> {
-                    VersionSelectorDialog.open(v.context, false ){ id: String, snapshot: Boolean ->
+                    VersionSelectorDialog.open(v.context, false) { id: String, snapshot: Boolean ->
                         tempProfile.lastVersionId.set(id)
                     }
                 }
@@ -102,7 +101,8 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClic
                         this@ProfileEditFragment,
                         FilePickFragment.REQUEST_PICK_FILE
                     ) {
-                        val file = it.getString("file", "").replace(PathManager.getCurrentPath(), ".")
+                        val file =
+                            it.getString("file", "").replace(PathManager.getCurrentPath(), ".")
                         tempProfile.gameDir.set(file)
                     }
                     FilePickFragment.openPicker(
@@ -120,28 +120,15 @@ class ProfileEditFragment : BaseFragment(R.layout.fragment_profile_edit), OnClic
                         val fragment = parentFragment as HomeFragment?
                         val versionSpinner = fragment!!.binding.mcVersionSpinner
                         versionSpinner.profileAdapter.notifyDataSetChanged()
-                        versionSpinner.setSelection(versionSpinner.mSelectedIndex)
+                        versionSpinner.setSelection(versionSpinner.selectedIndex)
                     }
                     parentFragmentManager.popBackStack()
                 }
 
                 R.id.delete -> {
-                    if (LauncherProfiles.mainProfileJson.profiles.size > 1) {
-                        ProfileIconCache.dropIcon(profileKey)
-                        LauncherProfiles.mainProfileJson.profiles.remove(profileKey)
-                        LauncherProfiles.write()
-                        ExtraCore.setValue(
-                            ExtraConstants.REFRESH_VERSION_SPINNER,
-                            DELETED_PROFILE
-                        )
-                        if (parentFragment is HomeFragment) {
-                            val fragment = parentFragment as HomeFragment?
-                            val versionSpinner = fragment!!.binding.mcVersionSpinner
-                            versionSpinner.profileAdapter.notifyDataSetChanged()
-                            versionSpinner.setSelection(versionSpinner.mSelectedIndex - 1)
-                        }
+                    if (parentFragment is HomeFragment) {
+                        (parentFragment as HomeFragment).deleteProfile(profileKey)
                     }
-
                     parentFragmentManager.popBackStack()
                 }
 
